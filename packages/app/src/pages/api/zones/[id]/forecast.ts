@@ -27,9 +27,11 @@ const handler: NextApiHandler = (req, res) => {
       startTime + ONE_DAY * 10,
       EIGHT_HOURS,
     ).map((time) => {
-      const startedAt = new Date(time);
+      const startedAt = new Date(time),
+        id = eorzeaWeather.getWeatherId(startedAt);
       return {
-        name: eorzeaWeather.getWeather(startedAt),
+        id,
+        name: eorzeaWeather.translate(`weathers.${id}`),
         startedAt,
       };
     });

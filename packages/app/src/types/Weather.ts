@@ -1,4 +1,5 @@
 type Weather = {
+  id: string;
   name: string;
   startedAt: string;
 };
