@@ -27,6 +27,7 @@ import useSWR from 'swr';
 import Weather from '../../types/Weather';
 import WeatherTableCell from './WeatherTableCell';
 import messages from './intl';
+import { useSettings } from '../../context/settings';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -37,6 +38,10 @@ const useStyles = makeStyles((theme) =>
     formLabel: {
       marginLeft: theme.spacing(2),
       marginRight: theme.spacing(2),
+    },
+    spacedLabel: {
+      display: 'block',
+      marginTop: theme.spacing(2),
     },
     paper: {
       marginBottom: theme.spacing(4),
@@ -62,6 +67,8 @@ type Props = {
 };
 
 const WeatherTable: FC<Props> = ({ zoneID }) => {
+  const settings = useSettings();
+
   const [highlightedWeathers, setHighlightedWeathers] = useState<string[]>([]);
   const { locale } = useLocale();
   const messageFormatter = useMessageFormatter(messages);
@@ -74,6 +81,28 @@ const WeatherTable: FC<Props> = ({ zoneID }) => {
     },
   );
   const classes = useStyles();
+
+  const handleHideClear = useCallback(
+    ({ target }: ChangeEvent<HTMLInputElement>) => {
+      const { checked } = target;
+      settings.dispatch({
+        type: 'sethideclear',
+        hide_clear: checked,
+      });
+    },
+    [settings],
+  );
+
+  const handleIcons = useCallback(
+    ({ target }: ChangeEvent<HTMLInputElement>) => {
+      const { checked } = target;
+      settings.dispatch({
+        type: 'seticons',
+        icons: checked,
+      });
+    },
+    [settings],
+  );
 
   const handleFilterChange = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -174,6 +203,33 @@ const WeatherTable: FC<Props> = ({ zoneID }) => {
           })}
         </FormGroup>
       )}
+
+      <FormLabel className={classes.formLabel + ' ' + classes.spacedLabel}>
+        {messageFormatter('other')}
+      </FormLabel>
+
+      <FormGroup className={classes.formGroup} row>
+        <FormControlLabel
+          control={
+            <Switch
+              color="primary"
+              checked={settings.state.icons}
+              onChange={handleIcons}
+            />
+          }
+          label={messageFormatter('icons')}
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              color="primary"
+              checked={settings.state.hide_clear}
+              onChange={handleHideClear}
+            />
+          }
+          label={messageFormatter('hide_clear')}
+        />
+      </FormGroup>
     </>
   );
 };

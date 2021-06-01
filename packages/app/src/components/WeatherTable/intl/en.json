@@ -1,3 +1,6 @@
 {
-  "highlight": "Highlight"
+  "highlight": "Highlight",
+  "other": "Other Settings",
+  "icons": "Show Icons",
+  "hide_clear": "Hide Clear/Fair Skies"
 }
