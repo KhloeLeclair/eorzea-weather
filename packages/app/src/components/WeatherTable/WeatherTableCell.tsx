@@ -1,5 +1,6 @@
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
 import TableCell from '@material-ui/core/TableCell';
 import Typography from '@material-ui/core/Typography';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -15,6 +16,14 @@ const useStyles = makeStyles((theme) =>
     highlight: {
       backgroundColor: theme.palette.action.selected,
     },
+    avatar: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+      marginRight: theme.spacing(1),
+    },
+    flex: {
+      display: 'flex',
+    },
     past: {
       color: theme.palette.text.disabled,
     },
@@ -23,6 +32,9 @@ const useStyles = makeStyles((theme) =>
       left: 0,
       position: 'absolute',
       right: 0,
+    },
+    secondary: {
+      color: theme.palette.text.secondary,
     },
     root: {
       paddingBottom: '15px',
@@ -58,6 +70,7 @@ const WeatherTableCell: FC<Props> = ({ highlight = false, value }) => {
 
   const startedAt = value ? new Date(value.startedAt) : new Date(0);
   const time = startedAt.getTime();
+  const past = time + EIGHT_HOURS < now;
 
   useEffect(() => {
     let requestID: number;
@@ -79,25 +92,37 @@ const WeatherTableCell: FC<Props> = ({ highlight = false, value }) => {
     <TableCell
       className={clsx(classes.root, {
         [classes.highlight]: highlight,
-        [classes.past]: time + EIGHT_HOURS < now,
+        [classes.past]: past,
       })}
     >
-      <Typography color="inherit">
+      <div className={classes.flex}>
         {value ? (
-          <>
-            {value.name} (
-            <time
-              dateTime={startedAt.toISOString()}
-              title={fullDateFormatter.format(startedAt)}
-            >
-              {dateFormatter.format(startedAt)}
-            </time>
-            )
-          </>
-        ) : (
-          <Skeleton width="5rem" />
-        )}
-      </Typography>
+          <Avatar
+            className={classes.avatar}
+            alt={value.name}
+            src={`/static/weather/${value.id}.png`}
+          />
+        ) : null}
+        <Typography color="inherit">
+          {value ? (
+            <>
+              {value.name}{' '}
+              <span className={past ? classes.past : classes.secondary}>
+                (
+                <time
+                  dateTime={startedAt.toISOString()}
+                  title={fullDateFormatter.format(startedAt)}
+                >
+                  {dateFormatter.format(startedAt)}
+                </time>
+                )
+              </span>
+            </>
+          ) : (
+            <Skeleton width="5rem" />
+          )}
+        </Typography>
+      </div>
       {time <= now && now < time + EIGHT_HOURS && (
         <LinearProgress
           className={classes.progress}
