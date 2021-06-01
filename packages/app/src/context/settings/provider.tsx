@@ -10,6 +10,8 @@ import type { State, Context } from './types';
 
 const initialState: State = {
   dark: null,
+  icons: true,
+  hide_clear: false,
 };
 
 // Context and Provider

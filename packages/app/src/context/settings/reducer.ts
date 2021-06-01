@@ -13,6 +13,18 @@ export default function settingsReducer(state: State, action: Action): State {
         ...state,
         dark: action.dark ?? null,
       };
+
+    case 'sethideclear':
+      return {
+        ...state,
+        hide_clear: action.hide_clear ?? false,
+      };
+
+    case 'seticons':
+      return {
+        ...state,
+        icons: action.icons ?? false,
+      };
   }
 
   return state;
