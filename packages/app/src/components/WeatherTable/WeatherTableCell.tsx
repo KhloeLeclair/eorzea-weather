@@ -8,11 +8,17 @@ import { useDateFormatter } from '@react-aria/i18n';
 import clsx from 'clsx';
 import React, { FC, useEffect, useState } from 'react';
 import Weather from '../../types/Weather';
+import { useSettings } from '../../context/settings';
 
 const EIGHT_HOURS = 8 * 175 * 1000;
 
 const useStyles = makeStyles((theme) =>
   createStyles({
+    faded: {
+      '& p,& .MuiAvatar-root': {
+        opacity: 0.3,
+      },
+    },
     highlight: {
       backgroundColor: theme.palette.action.selected,
     },
@@ -53,6 +59,8 @@ type Props = {
 };
 
 const WeatherTableCell: FC<Props> = ({ highlight = false, value }) => {
+  const settings = useSettings();
+
   const [now, setNow] = useState(() => Date.now());
   const dateFormatter = useDateFormatter({
     hour: 'numeric',
@@ -71,6 +79,11 @@ const WeatherTableCell: FC<Props> = ({ highlight = false, value }) => {
   const startedAt = value ? new Date(value.startedAt) : new Date(0);
   const time = startedAt.getTime();
   const past = time + EIGHT_HOURS < now;
+
+  const fade =
+    settings.state.hide_clear &&
+    value &&
+    (value.id === 'clearSkies' || value.id === 'fairSkies');
 
   useEffect(() => {
     let requestID: number;
@@ -91,17 +104,22 @@ const WeatherTableCell: FC<Props> = ({ highlight = false, value }) => {
   return (
     <TableCell
       className={clsx(classes.root, {
+        [classes.faded]: fade,
         [classes.highlight]: highlight,
         [classes.past]: past,
       })}
     >
       <div className={classes.flex}>
-        {value ? (
-          <Avatar
-            className={classes.avatar}
-            alt={value.name}
-            src={`/static/weather/${value.id}.png`}
-          />
+        {settings.state.icons ? (
+          value ? (
+            <Avatar
+              className={classes.avatar}
+              alt={value.name}
+              src={`/static/weather/${value.id}.png`}
+            />
+          ) : (
+            <Avatar className={classes.avatar}>?</Avatar>
+          )
         ) : null}
         <Typography color="inherit">
           {value ? (
