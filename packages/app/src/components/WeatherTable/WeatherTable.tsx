@@ -25,8 +25,12 @@ import React, {
 } from 'react';
 import useSWR from 'swr';
 import Weather from '../../types/Weather';
+import WeatherSummary from '../WeatherSummary';
 import WeatherTableCell from './WeatherTableCell';
 import messages from './intl';
+import { useSettings, ActionKey } from '../../context/settings';
+import { getForecast } from '../../utils/api';
+import { EIGHT_HOURS } from '../../constants';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -38,6 +42,15 @@ const useStyles = makeStyles((theme) =>
       marginLeft: theme.spacing(2),
       marginRight: theme.spacing(2),
     },
+    spacedLabel: {
+      display: 'block',
+      marginTop: theme.spacing(2),
+    },
+    summary: {
+      margin: 8,
+      marginTop: theme.spacing(-2),
+      marginBottom: theme.spacing(2),
+    },
     paper: {
       marginBottom: theme.spacing(4),
       marginTop: 0,
@@ -48,6 +61,10 @@ const useStyles = makeStyles((theme) =>
     },
     table: {
       tableLayout: 'fixed',
+    },
+    thinHeader: {
+      paddingTop: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
     },
     tableCell: {
       '&:last-child': {
@@ -62,18 +79,31 @@ type Props = {
 };
 
 const WeatherTable: FC<Props> = ({ zoneID }) => {
+  const settings = useSettings();
+
   const [highlightedWeathers, setHighlightedWeathers] = useState<string[]>([]);
   const { locale } = useLocale();
   const messageFormatter = useMessageFormatter(messages);
   const { data: weatherTable } = useSWR<Weather[]>(
-    `/api/zones/${camelCase(zoneID)}/forecast?locale=${locale}`,
-    async (key) => {
-      const res = await fetch(key);
-
-      return res.json();
+    `zone-${zoneID}-${locale}`,
+    () => {
+      return getForecast(camelCase(zoneID), locale);
     },
+    { refreshInterval: EIGHT_HOURS },
   );
   const classes = useStyles();
+
+  const handleSettingToggle = useCallback(
+    ({ target }: ChangeEvent<HTMLInputElement>) => {
+      const { checked, value } = target;
+      settings.dispatch({
+        type: 'setbool',
+        key: value as ActionKey,
+        value: checked,
+      });
+    },
+    [settings],
+  );
 
   const handleFilterChange = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -103,17 +133,28 @@ const WeatherTable: FC<Props> = ({ zoneID }) => {
 
   return (
     <>
+      {settings.state.summary ? (
+        <div className={classes.summary}>
+          <WeatherSummary zoneID={zoneID} data={weatherTable} />
+        </div>
+      ) : null}
       <TableContainer className={classes.paper} component={Paper}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell className={classes.tableCell}>
+              <TableCell
+                className={classes.tableCell + ' ' + classes.thinHeader}
+              >
                 ET 00:00 - 07:59
               </TableCell>
-              <TableCell className={classes.tableCell}>
+              <TableCell
+                className={classes.tableCell + ' ' + classes.thinHeader}
+              >
                 ET 08:00 - 15:59
               </TableCell>
-              <TableCell className={classes.tableCell}>
+              <TableCell
+                className={classes.tableCell + ' ' + classes.thinHeader}
+              >
                 ET 16:00 - 23:59
               </TableCell>
             </TableRow>
@@ -121,11 +162,13 @@ const WeatherTable: FC<Props> = ({ zoneID }) => {
           <TableBody>
             {weatherTable
               ? chunk(weatherTable, 3).map((weatherTableForDay) => (
-                  <TableRow key={`row-${weatherTableForDay[0].startedAt}`}>
+                  <TableRow
+                    key={`row-${weatherTableForDay[0].startedAt.getTime()}`}
+                  >
                     {weatherTableForDay.map((weather) => (
                       <WeatherTableCell
                         highlight={highlightedWeathers.includes(weather.name)}
-                        key={`cell-${weather.startedAt}`}
+                        key={`cell-${weather.startedAt.getTime()}`}
                         value={weather}
                       />
                     ))}
@@ -174,6 +217,46 @@ const WeatherTable: FC<Props> = ({ zoneID }) => {
           })}
         </FormGroup>
       )}
+
+      <FormLabel className={classes.formLabel + ' ' + classes.spacedLabel}>
+        {messageFormatter('other')}
+      </FormLabel>
+
+      <FormGroup className={classes.formGroup} row>
+        <FormControlLabel
+          control={
+            <Switch
+              color="primary"
+              value="icons"
+              checked={settings.state.icons}
+              onChange={handleSettingToggle}
+            />
+          }
+          label={messageFormatter('icons')}
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              color="primary"
+              value="summary"
+              checked={settings.state.summary}
+              onChange={handleSettingToggle}
+            />
+          }
+          label={messageFormatter('summary')}
+        />
+        <FormControlLabel
+          control={
+            <Switch
+              color="primary"
+              value="hide_clear"
+              checked={settings.state.hide_clear}
+              onChange={handleSettingToggle}
+            />
+          }
+          label={messageFormatter('hide_clear')}
+        />
+      </FormGroup>
     </>
   );
 };

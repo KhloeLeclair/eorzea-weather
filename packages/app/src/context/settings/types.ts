@@ -1,14 +1,22 @@
 export type BoolOrNull = boolean | null;
+export type Locale = 'en' | 'ja' | null;
 
 export type State = {
   dark: BoolOrNull;
+  locale: Locale;
+  hide_clear: boolean;
+  icons: boolean;
+  summary: boolean;
 };
 
-export type ActionType = 'load' | 'setdark';
+export type ActionType = 'load' | 'setbool' | 'clear' | 'setlocale';
+export type ActionKey = 'dark' | 'hide_clear' | 'icons' | 'summary';
 
 export type Action = {
   type: ActionType;
-  dark?: BoolOrNull;
+  key?: ActionKey;
+  value?: boolean;
+  locale?: Locale;
   state?: State;
 };
 

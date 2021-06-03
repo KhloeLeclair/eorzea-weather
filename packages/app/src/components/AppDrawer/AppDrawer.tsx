@@ -85,6 +85,19 @@ const AppDrawer: FC<Props> = ({ onClose, open }) => {
         ))}
       </List>
       <Divider />
+      <List>
+        <Link href="/overview/eureka" passHref prefetch={false}>
+          <ListItem button component="a" onClick={handleClose}>
+            <ListItemText primary={messageFormatter('eureka_overview')} />
+          </ListItem>
+        </Link>
+        <Link href="/overview/bozja" passHref prefetch={false}>
+          <ListItem button component="a" onClick={handleClose}>
+            <ListItemText primary={messageFormatter('bozja_overview')} />
+          </ListItem>
+        </Link>
+      </List>
+      <Divider />
       <List onKeyDown={handleClose}>
         <ListItem
           button

@@ -3,14 +3,15 @@ import EorzeaTime from 'eorzea-time';
 import React, { FC, useEffect, useState } from 'react';
 
 const EorzeaClock: FC = () => {
-  const [date, setDate] = useState<EorzeaTime>();
+  const [date] = useState<EorzeaTime>(() => new EorzeaTime());
+  const [printed, setPrinted] = useState(date.toString());
 
   useEffect(() => {
     let requestID: number;
 
     const loop = () => {
-      setDate(new EorzeaTime());
-
+      date.update();
+      setPrinted(date.toString());
       requestID = requestAnimationFrame(loop);
     };
 
@@ -19,11 +20,11 @@ const EorzeaClock: FC = () => {
     return () => {
       cancelAnimationFrame(requestID);
     };
-  }, []);
+  }, [date]);
 
   return (
-    <Typography color="inherit" variant="body2">
-      ET {date ? date.toString() : '--:--:--'}
+    <Typography color="inherit" variant="body2" suppressHydrationWarning>
+      ET {printed ? printed : '--:--:--'}
     </Typography>
   );
 };

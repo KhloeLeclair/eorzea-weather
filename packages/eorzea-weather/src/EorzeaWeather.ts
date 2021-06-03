@@ -254,13 +254,17 @@ export default class EorzeaWeather {
   }
 
   getWeather(date: Date): string {
+    return this.translate(`weathers.${this.getWeatherId(date)}`);
+  }
+
+  getWeatherId(date: Date): string {
     if (!this.validate()) {
       throw new TypeError(`'${this.#id}' is undefined zone ID.`);
     }
     const chance = calculateForecastTarget(date);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const id: string = weatherChances[this.#id](chance);
-    return this.translate(`weathers.${id}`);
+    return id;
   }
 
   getZoneName(): string {
