@@ -1,3 +1,4 @@
+import Tooltip from '@material-ui/core/Tooltip';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
@@ -9,8 +10,8 @@ import clsx from 'clsx';
 import React, { FC, useEffect, useState } from 'react';
 import Weather from '../../types/Weather';
 import { useSettings } from '../../context/settings';
-
-const EIGHT_HOURS = 8 * 175 * 1000;
+import { EIGHT_HOURS } from '../../constants';
+import { getWeatherIcon } from '../../utils/icons';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -29,18 +30,32 @@ const useStyles = makeStyles((theme) =>
     },
     flex: {
       display: 'flex',
+      'z-index': 10,
     },
     past: {
       color: theme.palette.text.disabled,
     },
+    current: {
+      color: theme.palette.info.contrastText,
+      backgroundColor: theme.palette.info.dark,
+    },
     progress: {
       bottom: 0,
       left: 0,
+      height: 4,
       position: 'absolute',
       right: 0,
     },
     secondary: {
       color: theme.palette.text.secondary,
+    },
+    bg: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      opacity: 0.25,
     },
     root: {
       paddingBottom: '15px',
@@ -76,9 +91,11 @@ const WeatherTableCell: FC<Props> = ({ highlight = false, value }) => {
   });
   const classes = useStyles();
 
-  const startedAt = value ? new Date(value.startedAt) : new Date(0);
-  const time = startedAt.getTime();
-  const past = time + EIGHT_HOURS < now;
+  const startedAt = value ? value.startedAt : new Date(0);
+  const time = startedAt.getTime(),
+    end_time = time + EIGHT_HOURS,
+    is_now = now >= time && now <= end_time,
+    past = end_time < now;
 
   const fade =
     settings.state.hide_clear &&
@@ -87,19 +104,50 @@ const WeatherTableCell: FC<Props> = ({ highlight = false, value }) => {
 
   useEffect(() => {
     let requestID: number;
+    let is_raf: boolean;
 
     const loop = () => {
-      setNow(Date.now());
+      const _now = Date.now();
+      setNow(_now);
 
-      requestID = requestAnimationFrame(loop);
+      if (_now <= end_time && _now >= time - 2000) {
+        requestID = requestAnimationFrame(loop);
+        is_raf = true;
+      } else {
+        let minimum = 30000;
+        if (_now < time) minimum = Math.min(minimum, time - 2000 - _now);
+
+        requestID = setTimeout(loop, minimum) as unknown as number;
+        is_raf = false;
+      }
     };
 
-    requestID = requestAnimationFrame(loop);
+    loop();
 
     return () => {
-      cancelAnimationFrame(requestID);
+      if (is_raf) cancelAnimationFrame(requestID);
+      else clearTimeout(requestID);
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [time, end_time]);
+
+  let progress = null;
+
+  if (is_now) {
+    if (time >= now) progress = 0;
+    else if (end_time < now) progress = 100;
+    else progress = ((now - time) / EIGHT_HOURS) * 100;
+
+    progress = (
+      <Tooltip title="Day">
+        <LinearProgress
+          className={classes.progress}
+          variant="determinate"
+          value={progress}
+        />
+      </Tooltip>
+    );
+  }
 
   return (
     <TableCell
@@ -109,13 +157,18 @@ const WeatherTableCell: FC<Props> = ({ highlight = false, value }) => {
         [classes.past]: past,
       })}
     >
+      <div
+        className={clsx(classes.bg, {
+          [classes.current]: is_now,
+        })}
+      />
       <div className={classes.flex}>
         {settings.state.icons ? (
           value ? (
             <Avatar
               className={classes.avatar}
               alt={value.name}
-              src={`/static/weather/${value.id}.png`}
+              src={getWeatherIcon(value.id)}
             />
           ) : (
             <Avatar className={classes.avatar}>?</Avatar>
@@ -141,13 +194,7 @@ const WeatherTableCell: FC<Props> = ({ highlight = false, value }) => {
           )}
         </Typography>
       </div>
-      {time <= now && now < time + EIGHT_HOURS && (
-        <LinearProgress
-          className={classes.progress}
-          value={((now - time) / EIGHT_HOURS) * 100}
-          variant="determinate"
-        />
-      )}
+      {progress}
     </TableCell>
   );
 };

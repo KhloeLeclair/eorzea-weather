@@ -1,0 +1,6 @@
+{
+	"current": "<b>{weather}</b> in <b>{zone}</b> for <t>{remaining}</t>.",
+	"day": "<b>Day</b> in <t>{when}</t>.",
+	"night": "<b>Night</b> in <t>{when}</t>.",
+	"weather": "<b>{weather}</b> in <t>{when}</t>."
+}

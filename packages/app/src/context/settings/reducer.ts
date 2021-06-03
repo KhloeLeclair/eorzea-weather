@@ -8,22 +8,27 @@ export default function settingsReducer(state: State, action: Action): State {
         ...action.state,
       };
 
-    case 'setdark':
-      return {
-        ...state,
-        dark: action.dark ?? null,
-      };
+    case 'setbool':
+      if (action.key && action.value !== undefined)
+        return {
+          ...state,
+          [action.key]: action.value,
+        };
 
-    case 'sethideclear':
-      return {
-        ...state,
-        hide_clear: action.hide_clear ?? false,
-      };
+      return state;
 
-    case 'seticons':
+    case 'clear':
+      if (action.key)
+        return {
+          ...state,
+          [action.key]: undefined,
+        };
+      return state;
+
+    case 'setlocale':
       return {
         ...state,
-        icons: action.icons ?? false,
+        locale: action.locale ?? null,
       };
   }
 

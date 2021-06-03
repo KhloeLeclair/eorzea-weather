@@ -7,13 +7,23 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import LanguageIcon from '@material-ui/icons/Language';
 import MenuIcon from '@material-ui/icons/Menu';
+import { useLocale } from '@react-aria/i18n';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, {
+  FC,
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import { useSettings } from '../../context/settings';
 import { AVAILABLE_LOCALES } from '../../constants';
 import AppDrawer from '../AppDrawer';
 import EorzeaClock from '../EorzeaClock';
 import ThemeButton from '../ThemeButton';
+
+const LOCALES = Object.keys(AVAILABLE_LOCALES);
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -42,6 +52,8 @@ const useStyles = makeStyles((theme) =>
 );
 
 const AppHeader: FC = () => {
+  const { locale } = useLocale();
+  const settings = useSettings();
   const [isHome, setIsHome] = useState(true);
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -61,6 +73,15 @@ const AppHeader: FC = () => {
   }, []);
 
   const handleMenuClose = useCallback(() => {
+    setAnchorEl(null);
+  }, []);
+
+  const handlePickLocale = useCallback(({ currentTarget }) => {
+    settings.dispatch({
+      type: 'setlocale',
+      locale: currentTarget.dataset.locale,
+    });
+    // TODO: Change locale.
     setAnchorEl(null);
   }, []);
 
@@ -90,7 +111,7 @@ const AppHeader: FC = () => {
 
           <ThemeButton />
 
-          {(router.locales || []).length > 1 && (
+          {(LOCALES || []).length > 1 && (
             <>
               <IconButton color="inherit" onClick={handleLanguageIconClick}>
                 <LanguageIcon />
@@ -108,14 +129,18 @@ const AppHeader: FC = () => {
                   vertical: 'top',
                 }}
               >
-                {(router.locales || []).map((locale) => (
+                {(LOCALES || []).map((loc) => (
                   <MenuItem
                     className={classes.menuItem}
-                    key={`item-${locale}`}
-                    onClick={handleMenuClose}
-                    selected={locale === router.locale}
+                    key={`item-${loc}`}
+                    onClick={handlePickLocale}
+                    selected={loc === locale}
+                    data-locale={loc}
                   >
-                    <Link href={router.asPath} locale={locale} prefetch={false}>
+                    <div className={classes.menuLink}>
+                      {AVAILABLE_LOCALES[loc]}
+                    </div>
+                    {/*<Link href={router.asPath} locale={locale} prefetch={false}>
                       <a
                         className={classes.menuLink}
                         hrefLang={locale}
@@ -123,7 +148,7 @@ const AppHeader: FC = () => {
                       >
                         {AVAILABLE_LOCALES[locale]}
                       </a>
-                    </Link>
+                </Link>*/}
                   </MenuItem>
                 ))}
               </Menu>

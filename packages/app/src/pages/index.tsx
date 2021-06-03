@@ -3,12 +3,13 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { useMessageFormatter } from '@react-aria/i18n';
-import type { GetStaticProps, NextPage } from 'next';
+import type { NextPage } from 'next';
 import Link from 'next/link';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import Ad from '../components/Ad';
 import ZoneList from '../components/ZoneList';
+import messages from '../intl/home';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -17,8 +18,12 @@ const useStyles = makeStyles((theme) =>
       marginBottom: theme.spacing(5),
       marginTop: theme.spacing(5),
     },
-    button: {
+    buttonGroup: {
       marginTop: theme.spacing(3),
+      marginRight: theme.spacing(-3),
+      '& a': {
+        marginRight: theme.spacing(3),
+      },
     },
     container: {
       padding: theme.spacing(1.5),
@@ -36,15 +41,7 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-type Props = {
-  messages: {
-    [key: string]: {
-      [key: string]: string;
-    };
-  };
-};
-
-const Home: NextPage<Props> = ({ messages }) => {
+const Home: NextPage = () => {
   const formatMessage = useMessageFormatter(messages);
   const classes = useStyles();
 
@@ -59,11 +56,19 @@ const Home: NextPage<Props> = ({ messages }) => {
           Eorzea Weather
         </Typography>
 
-        <Link as={`/zones/eureka-hydatos`} href="/zones/[id]" passHref>
-          <Button className={classes.button} component="a" variant="contained">
-            Eureka!
-          </Button>
-        </Link>
+        <div className={classes.buttonGroup}>
+          <Link as="/overview/eureka" href="/overview/eureka" passHref>
+            <Button variant="contained" component="a">
+              {formatMessage('eureka')}
+            </Button>
+          </Link>
+
+          <Link as="/overview/bozja" href="/overview/bozja" passHref>
+            <Button variant="contained" component="a">
+              {formatMessage('bozja')}
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <main className={classes.container}>
@@ -84,17 +89,3 @@ const Home: NextPage<Props> = ({ messages }) => {
 };
 
 export default Home;
-
-export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => {
-  const message = await import(`../intl/home/${locale || 'en'}.json`).then(
-    (mod: { default: { [key: string]: string } }) => mod.default,
-  );
-
-  return {
-    props: {
-      messages: {
-        [locale || 'en']: message,
-      },
-    },
-  };
-};

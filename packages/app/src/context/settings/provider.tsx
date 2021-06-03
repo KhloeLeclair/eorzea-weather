@@ -10,7 +10,9 @@ import type { State, Context } from './types';
 
 const initialState: State = {
   dark: null,
+  locale: null,
   icons: true,
+  summary: true,
   hide_clear: false,
 };
 

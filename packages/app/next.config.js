@@ -7,12 +7,14 @@ const nextConfig = {
   future: {
     webpack5: true,
   },
-  i18n: {
-    defaultLocale: 'ja',
-    localeDetection: false,
-    locales: ['en', 'ja'],
-  },
   pageExtensions: ['ts', 'tsx', 'mdx'],
+  redirects: () => [
+    {
+      source: '/(en|ja)/:any*',
+      destination: '/:any*',
+      permanent: true,
+    },
+  ],
   rewrites: () => [
     {
       destination: '/api/ads',

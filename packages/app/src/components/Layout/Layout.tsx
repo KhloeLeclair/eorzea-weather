@@ -17,8 +17,12 @@ const useStyles = makeStyles((theme) =>
       marginTop: theme.spacing(4),
       padding: `${theme.spacing(4)}px 0`,
     },
+    grow: {
+      flexGrow: 1,
+    },
     footerInner: {
-      textAlign: 'right',
+      display: 'flex',
+      //textAlign: 'right',
     },
     link: {
       color: 'inherit',
@@ -74,6 +78,9 @@ const Layout: FC = ({ children }) => {
 
       <footer className={classes.footer}>
         <Container className={classes.footerInner}>
+          <div className={classes.grow}>
+            {messageFormatter('legal_note')}
+          </div>
           <Link href="/privacy" prefetch={false}>
             <a className={classes.link}>{messageFormatter('privacy_policy')}</a>
           </Link>

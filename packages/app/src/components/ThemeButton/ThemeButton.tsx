@@ -21,8 +21,9 @@ const ThemeButton: FC = () => {
     if (dark == null) dark = prefersDark;
 
     settings.dispatch({
-      type: 'setdark',
-      dark: !dark,
+      type: 'setbool',
+      key: 'dark',
+      value: !dark,
     });
   }, [settings, prefersDark]);
 

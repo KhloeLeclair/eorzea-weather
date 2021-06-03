@@ -2,16 +2,13 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { useMessageFormatter } from '@react-aria/i18n';
-import camelCase from 'lodash/camelCase';
-import kebabCase from 'lodash/kebabCase';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import Ad from '../../components/Ad';
-import WeatherTable from '../../components/WeatherTable';
-import { EORZEA_ZONE_LIST } from '../../constants';
-import { useZone } from '../../context/zone';
-import messages from '../../intl/zone';
+import MultiSummary from '../../components/MultiSummary';
+import React from 'react';
+import messages from '../../intl/overview';
+import { camelCase, kebabCase } from 'lodash';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -35,20 +32,31 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-type Props = {
-  id: string;
+const ZONES = {
+  eureka: ['eurekaAnemos', 'eurekaPagos', 'eurekaPyros', 'eurekaHydatos'],
+  bozja: ['bozjanSouthernFront', 'zadnor'],
+} as RegionZones;
+
+type RegionZones = {
+  [id: string]: string[];
 };
 
-const Zone: NextPage<Props> = ({ id }) => {
-  const messageFormatter = useMessageFormatter(messages);
-  const zone = useZone({ id });
-  const classes = useStyles();
+type Region = 'bozja' | 'eureka';
 
-  const title = messageFormatter('title', { name: zone.name });
+type Props = {
+  id: Region;
+};
+
+const Overview: NextPage<Props> = ({ id }) => {
+  const formatMessage = useMessageFormatter(messages);
+  const classes = useStyles();
+  const zones = ZONES[id];
+
+  const title = formatMessage(`${id}_title`);
 
   return (
     <>
-      <Helmet>
+      <Helmet bodyAttributes={{ class: 'overview' }}>
         <title>{title}</title>
       </Helmet>
 
@@ -62,47 +70,41 @@ const Zone: NextPage<Props> = ({ id }) => {
             <Container maxWidth="md">
               <Ad
                 className={classes.ad}
-                key={`ad-for-${zone.id}`}
                 slot={process.env.NEXT_PUBLIC_GOOGLE_ADCENSE_AD_SLOT}
               />
             </Container>
           )}
 
-        <WeatherTable zoneID={zone.id} />
+        <MultiSummary zones={zones} />
       </main>
     </>
   );
 };
 
-export default Zone;
+export default Overview;
 
 type Params = {
   id: string;
 };
 
-export const getStaticProps: GetStaticProps<Props, Params> = async ({
-  params,
-}) => {
-  if (!params?.id) throw new TypeError('id is required.');
+export const getStaticProps: GetStaticProps<Props, Params> = ({ params }) => {
+  if (!params?.id) return Promise.reject(new TypeError('id is required'));
   const id = camelCase(params.id);
+  if (!ZONES[id]) return Promise.reject(new Error('invalid overview id'));
 
-  return {
+  return Promise.resolve({
     props: {
       id,
-    },
-  };
+    } as Props,
+  });
 };
 
 export const getStaticPaths: GetStaticPaths<Params> = () => {
-  const paths = EORZEA_ZONE_LIST.flatMap((id) => {
-    const params = {
+  const paths = Object.keys(ZONES).map((id) => ({
+    params: {
       id: kebabCase(id),
-    };
-
-    return {
-      params,
-    };
-  });
+    },
+  }));
 
   return Promise.resolve({
     fallback: false,

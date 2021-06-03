@@ -5,6 +5,36 @@ export const AVAILABLE_LOCALES: Record<string, string> = {
   ja: '日本語',
 };
 
+export const HOUR = 175 * 1000;
+export const EIGHT_HOURS = 8 * HOUR;
+export const ONE_DAY = 24 * HOUR;
+
+export const XIVAPI_DOMAIN = 'https://xivapi.com';
+
+type IconList = {
+  [id: string]: number;
+};
+
+export const WEATHER_ICONS = {
+  blizzards: 60216,
+  clearSkies: 60201,
+  clouds: 60203,
+  dustStorms: 60211,
+  fairSkies: 60202,
+  fog: 60204,
+  gales: 60206,
+  gloom: 60218,
+  heatWaves: 60214,
+  rain: 60207,
+  showers: 60208,
+  snow: 60215,
+  thunder: 60209,
+  thunderstorms: 60210,
+  umbralStatic: 60222,
+  umbralWind: 60219,
+  wind: 60205,
+} as IconList;
+
 export const EORZEA_ZONE_LIST = [
   EorzeaWeather.ZONE_AMH_ARAENG,
   EorzeaWeather.ZONE_AZYS_LLA,
