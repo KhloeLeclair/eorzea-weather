@@ -10,6 +10,24 @@ function getStartTime(date: Date): Date {
   return new Date(startMsec);
 }
 
+export function getCurrent(zone: string, locale: string): Weather {
+  const weather = new EorzeaWeather(zone, { locale });
+
+  if (!weather.validate()) throw new Error('Invalid zone ID');
+
+  const startTime = getStartTime(new Date()).getTime(),
+    startedAt = new Date(startTime),
+    endedAt = new Date(startTime + EIGHT_HOURS),
+    id = weather.getWeatherId(startedAt);
+
+  return {
+    id,
+    name: weather.translate(`weathers.${id}`),
+    startedAt,
+    endedAt,
+  };
+}
+
 export function getForecast(id: string, locale: string): Weather[] {
   const weather = new EorzeaWeather(id, { locale });
 

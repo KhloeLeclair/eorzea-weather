@@ -25,6 +25,8 @@ import Duration from 'dayjs/plugin/duration';
 
 import 'dayjs/locale/en';
 import 'dayjs/locale/ja';
+import 'dayjs/locale/de';
+import 'dayjs/locale/fr';
 
 dayjs.extend(Duration);
 dayjs.extend(RelativeTime);
@@ -70,7 +72,7 @@ const useStyles = makeStyles((theme) =>
       },
     },
     time: {
-      fontVariant: 'tabular-nums'
+      fontVariant: 'tabular-nums',
     },
     root: {
       display: 'flex',
@@ -94,9 +96,9 @@ type Cache = {
   weathers: FirstWeather;
 } | null;
 
-function formatNearTime(time: Date, now: number) {
-  if (time.getTime() - now > 180000) return dayjs(time).fromNow(true);
-  else return dayjs.duration(dayjs(time).diff(now)).format('m:ss');
+function formatNearTime(time: Date, now: number, fmt: string | null) {
+  if (!fmt || time.getTime() - now > 300000) return dayjs(time).fromNow(true);
+  else return dayjs.duration(dayjs(time).diff(now)).format(fmt);
 }
 
 const WeatherSummary: FC<Props> = ({ zoneID, data }) => {
@@ -108,6 +110,8 @@ const WeatherSummary: FC<Props> = ({ zoneID, data }) => {
   const [cached, setCached] = useState<Cache>(null);
   const [now, setNow] = useState(() => Date.now());
   const formatMessage = useMessageFormatter(messages);
+
+  const short_format = messages[locale]?.short_format ?? null;
 
   dayjs.locale(locale);
 
@@ -222,7 +226,11 @@ const WeatherSummary: FC<Props> = ({ zoneID, data }) => {
                 ),
                 weather: cached.current.name,
                 zone: zone.name,
-                remaining: formatNearTime(cached.until.endedAt, now),
+                remaining: formatNearTime(
+                  cached.until.endedAt,
+                  now,
+                  short_format,
+                ),
               })}
             </Typography>
             <ul className={classes.thinList}>
@@ -249,7 +257,7 @@ const WeatherSummary: FC<Props> = ({ zoneID, data }) => {
                           {chunks}
                         </time>
                       ),
-                      when: formatNearTime(morning, now),
+                      when: formatNearTime(morning, now, short_format),
                     })}
                   </div>
                 </li>
@@ -277,7 +285,7 @@ const WeatherSummary: FC<Props> = ({ zoneID, data }) => {
                           {chunks}
                         </time>
                       ),
-                      when: formatNearTime(evening, now),
+                      when: formatNearTime(evening, now, short_format),
                     })}
                   </div>
                 </li>
@@ -298,7 +306,7 @@ const WeatherSummary: FC<Props> = ({ zoneID, data }) => {
                         // eslint-disable-next-line react/display-name
                         t: (chunks: string) => (
                           <time
-                          className={classes.time}
+                            className={classes.time}
                             dateTime={entry.startedAt.toISOString()}
                             title={fullDateFormatter.format(entry.startedAt)}
                           >
@@ -306,7 +314,11 @@ const WeatherSummary: FC<Props> = ({ zoneID, data }) => {
                           </time>
                         ),
                         weather: entry.name,
-                        when: formatNearTime(entry.startedAt, now),
+                        when: formatNearTime(
+                          entry.startedAt,
+                          now,
+                          short_format,
+                        ),
                       })}
                     </div>
                   </li>

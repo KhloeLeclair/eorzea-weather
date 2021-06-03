@@ -76,14 +76,17 @@ const AppHeader: FC = () => {
     setAnchorEl(null);
   }, []);
 
-  const handlePickLocale = useCallback(({ currentTarget }) => {
-    settings.dispatch({
-      type: 'setlocale',
-      locale: currentTarget.dataset.locale,
-    });
-    // TODO: Change locale.
-    setAnchorEl(null);
-  }, []);
+  const handlePickLocale = useCallback(
+    ({ currentTarget }) => {
+      settings.dispatch({
+        type: 'setlocale',
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        locale: currentTarget.dataset.locale,
+      });
+      setAnchorEl(null);
+    },
+    [settings],
+  );
 
   useEffect(() => {
     setIsHome(router.pathname === '/');

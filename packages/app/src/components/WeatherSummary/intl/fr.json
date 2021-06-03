@@ -1,0 +1,7 @@
+{
+	"current": "<b>{weather}</b> en <b>{zone}</b> pendant <t>{remaining}</t>.",
+	"day": "<b>Journée</b> en <t>{when}</t>.",
+	"night": "<b>Nuit</b> en <t>{when}</t>.",
+	"weather": "<b>{weather}</b> en <t>{when}</t>.",
+	"short_format": "m:ss"
+}

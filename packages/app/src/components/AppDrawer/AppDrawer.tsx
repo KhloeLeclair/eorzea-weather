@@ -23,6 +23,11 @@ const useStyles = makeStyles((theme) =>
     childListItem: {
       paddingLeft: theme.spacing(4),
     },
+    childListDivider: {
+      margin: theme.spacing(1),
+      marginLeft: theme.spacing(4),
+      marginRight: theme.spacing(4),
+    },
     drawerHeader: {
       ...theme.mixins.toolbar,
       alignItems: 'center',
@@ -62,9 +67,20 @@ const AppDrawer: FC<Props> = ({ onClose, open }) => {
       </div>
       <Divider />
       <List>
-        {Object.entries(zoneList).map(([label, zones]) => (
-          <AppDrawerNavItem key={`drawer-item-${label}`} label={label}>
-            {zones.map((zone) => (
+        {Object.entries(zoneList).map(([id, region]) => (
+          <AppDrawerNavItem key={`drawer-item-${id}`} label={region.name}>
+            <Link href={`/overview/${kebabCase(id)}`} passHref prefetch={false}>
+              <ListItem
+                button
+                className={classes.childListItem}
+                component="a"
+                onClick={handleClose}
+              >
+                <ListItemText primary={messageFormatter('overview')} />
+              </ListItem>
+            </Link>
+            <Divider className={classes.childListDivider} />
+            {region.zones.map((zone) => (
               <Link
                 href={`/zones/${kebabCase(zone.id)}`}
                 key={`item-${zone.id}`}
@@ -83,19 +99,6 @@ const AppDrawer: FC<Props> = ({ onClose, open }) => {
             ))}
           </AppDrawerNavItem>
         ))}
-      </List>
-      <Divider />
-      <List>
-        <Link href="/overview/eureka" passHref prefetch={false}>
-          <ListItem button component="a" onClick={handleClose}>
-            <ListItemText primary={messageFormatter('eureka_overview')} />
-          </ListItem>
-        </Link>
-        <Link href="/overview/bozja" passHref prefetch={false}>
-          <ListItem button component="a" onClick={handleClose}>
-            <ListItemText primary={messageFormatter('bozja_overview')} />
-          </ListItem>
-        </Link>
       </List>
       <Divider />
       <List onKeyDown={handleClose}>

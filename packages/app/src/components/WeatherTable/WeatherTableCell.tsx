@@ -114,7 +114,7 @@ const WeatherTableCell: FC<Props> = ({ highlight = false, value }) => {
         requestID = requestAnimationFrame(loop);
         is_raf = true;
       } else {
-        let minimum = 30000;
+        let minimum = EIGHT_HOURS;
         if (_now < time) minimum = Math.min(minimum, time - 2000 - _now);
 
         requestID = setTimeout(loop, minimum) as unknown as number;

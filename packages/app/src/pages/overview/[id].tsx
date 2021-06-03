@@ -9,6 +9,7 @@ import MultiSummary from '../../components/MultiSummary';
 import React from 'react';
 import messages from '../../intl/overview';
 import { camelCase, kebabCase } from 'lodash';
+import { areaMap, useZoneList } from '../../context/zone/hooks';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -32,27 +33,20 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-const ZONES = {
-  eureka: ['eurekaAnemos', 'eurekaPagos', 'eurekaPyros', 'eurekaHydatos'],
-  bozja: ['bozjanSouthernFront', 'zadnor'],
-} as RegionZones;
-
-type RegionZones = {
-  [id: string]: string[];
-};
-
-type Region = 'bozja' | 'eureka';
-
 type Props = {
-  id: Region;
+  id: string;
 };
 
 const Overview: NextPage<Props> = ({ id }) => {
   const formatMessage = useMessageFormatter(messages);
   const classes = useStyles();
-  const zones = ZONES[id];
+  const regions = useZoneList();
+  const region = regions[id],
+    zones: string[] | undefined = areaMap[id];
 
-  const title = formatMessage(`${id}_title`);
+  if (!zones) throw new Error('Invalid zone');
+
+  const title = formatMessage('title', { region: region.name });
 
   return (
     <>
@@ -90,7 +84,7 @@ type Params = {
 export const getStaticProps: GetStaticProps<Props, Params> = ({ params }) => {
   if (!params?.id) return Promise.reject(new TypeError('id is required'));
   const id = camelCase(params.id);
-  if (!ZONES[id]) return Promise.reject(new Error('invalid overview id'));
+  if (!areaMap[id]) return Promise.reject(new Error('invalid overview id'));
 
   return Promise.resolve({
     props: {
@@ -100,7 +94,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths<Params> = () => {
-  const paths = Object.keys(ZONES).map((id) => ({
+  const paths = Object.keys(areaMap).map((id) => ({
     params: {
       id: kebabCase(id),
     },

@@ -3,6 +3,8 @@ import EorzeaWeather from 'eorzea-weather';
 export const AVAILABLE_LOCALES: Record<string, string> = {
   en: 'English',
   ja: '日本語',
+  de: 'Deutsch',
+  fr: 'Français',
 };
 
 export const HOUR = 175 * 1000;

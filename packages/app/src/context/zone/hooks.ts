@@ -11,7 +11,11 @@ export function useZone({ id }: { id: string }): Zone {
   return zones[id];
 }
 
-const areaMap = {
+type AreaDict = {
+  [id: string]: string[];
+};
+
+export const areaMap = {
   laNoscea: [
     EorzeaWeather.ZONE_LIMSA_LOMINSA,
     EorzeaWeather.ZONE_MIDDLE_LA_NOSCEA,
@@ -54,7 +58,7 @@ const areaMap = {
     EorzeaWeather.ZONE_THE_PEAKS,
     EorzeaWeather.ZONE_THE_LOCHS,
   ],
-  theFarEast: [
+  othard: [
     EorzeaWeather.ZONE_KUGANE,
     EorzeaWeather.ZONE_THE_RUBY_SEA,
     EorzeaWeather.ZONE_YANXIA,
@@ -76,8 +80,6 @@ const areaMap = {
     EorzeaWeather.ZONE_THE_GOBLET,
     EorzeaWeather.ZONE_SHIROGANE,
     EorzeaWeather.ZONE_MOR_DHONA,
-    EorzeaWeather.ZONE_BOZJAN_SOUTHERN_FRONT,
-    EorzeaWeather.ZONE_ZADNOR,
   ],
   eureka: [
     EorzeaWeather.ZONE_EUREKA_ANEMOS,
@@ -85,21 +87,37 @@ const areaMap = {
     EorzeaWeather.ZONE_EUREKA_PYROS,
     EorzeaWeather.ZONE_EUREKA_HYDATOS,
   ],
-};
+  bozja: [EorzeaWeather.ZONE_BOZJAN_SOUTHERN_FRONT, EorzeaWeather.ZONE_ZADNOR],
+} as AreaDict;
 
-type ZoneList = {
-  [area: string]: Zone[];
+export type ZoneList = {
+  [area: string]: {
+    id: string;
+    name: string;
+    zones: Zone[];
+  };
 };
 
 export function useZoneList(): ZoneList {
   const { zones } = useContext(Context);
   const formatMessage = useMessageFormatter(messages);
 
-  return Object.entries(areaMap).reduce(
+  const out = {} as ZoneList;
+  for (const [key, ids] of Object.entries(areaMap)) {
+    out[key] = {
+      id: key,
+      name: formatMessage(snakeCase(key)),
+      zones: ids.map((id) => zones[id]),
+    };
+  }
+
+  return out;
+
+  /*return Object.entries(areaMap).reduce(
     (list, [key, ids]) => ({
       ...list,
       [formatMessage(snakeCase(key))]: ids.map((id) => zones[id]),
     }),
     {},
-  );
+  );*/
 }
