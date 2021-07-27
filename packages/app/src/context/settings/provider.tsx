@@ -14,6 +14,7 @@ const initialState: State = {
   icons: true,
   summary: true,
   hide_clear: false,
+  displaySeconds: false,
 };
 
 // Context and Provider

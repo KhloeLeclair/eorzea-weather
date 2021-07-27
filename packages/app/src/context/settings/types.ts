@@ -7,10 +7,16 @@ export type State = {
   hide_clear: boolean;
   icons: boolean;
   summary: boolean;
+  displaySeconds: boolean;
 };
 
 export type ActionType = 'load' | 'setbool' | 'clear' | 'setlocale';
-export type ActionKey = 'dark' | 'hide_clear' | 'icons' | 'summary';
+export type ActionKey =
+  | 'dark'
+  | 'hide_clear'
+  | 'icons'
+  | 'summary'
+  | 'displaySeconds';
 
 export type Action = {
   type: ActionType;

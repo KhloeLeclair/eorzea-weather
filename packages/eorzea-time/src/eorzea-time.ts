@@ -33,14 +33,14 @@ export default class EorzeaTime {
     return this.#date.getUTCSeconds();
   }
 
-  toString(): string {
+  toString(includeSeconds = true): string {
     const hours = this.getHours(),
       minutes = this.getMinutes(),
       seconds = this.getSeconds();
 
     return `${hours > 9 ? '' : '0'}${hours}:${
       minutes > 9 ? '' : '0'
-    }${minutes}:${seconds > 9 ? '' : '0'}${seconds}`;
+    }${minutes}${includeSeconds ? `:${seconds > 9 ? '' : '0'}${seconds}` : ''}`;
   }
 
   toJSON(): string {
