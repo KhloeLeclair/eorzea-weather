@@ -12,15 +12,19 @@ import Avatar from '@material-ui/core/Avatar';
 import { useLocale, useMessageFormatter } from '@react-aria/i18n';
 import kebabCase from 'lodash/kebabCase';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { useSettings } from '../../context/settings';
 import { useZoneList } from '../../context/zone';
-import { getCurrent } from '../../utils/api';
+import { getCurrent, getWeatherStartTime } from '../../utils/api';
 import { getWeatherIcon } from '../../utils/icons';
 import Weather from '../../types/Weather';
 import { EIGHT_HOURS } from '../../constants';
 import messages from './intl';
 import useSWR from 'swr';
+
+type RawZoneWeather = {
+  [id: string]: Weather[];
+};
 
 type ZoneWeather = {
   [id: string]: Weather;
@@ -45,10 +49,13 @@ const ZoneList: FC = () => {
   const { locale } = useLocale();
   const classes = useStyles();
   const formatMessage = useMessageFormatter(messages);
-  const { data } = useSWR<ZoneWeather>(
+  const [buster, setBuster] = useState(0);
+  const [cached, setCached] = useState<ZoneWeather>({} as ZoneWeather);
+  const [now, setNow] = useState(() => getWeatherStartTime(new Date()));
+  const { data } = useSWR<RawZoneWeather>(
     'zone-list-current',
     () => {
-      const out = {} as ZoneWeather;
+      const out = {} as RawZoneWeather;
 
       for (const region of Object.values(zoneList)) {
         for (const zone of region.zones) {
@@ -60,6 +67,44 @@ const ZoneList: FC = () => {
     },
     { refreshInterval: EIGHT_HOURS },
   );
+
+  useEffect(() => {
+    const loop = () => {
+      const date = getWeatherStartTime(new Date());
+      if (date !== now) setNow(date);
+    };
+
+    const requestID = setInterval(loop, 1000);
+
+    return () => {
+      clearInterval(requestID);
+    };
+  });
+
+  useEffect(() => {
+    if (!now || !cached) return;
+
+    const values = Object.values(cached);
+    if (!values || !values[0]) return;
+
+    if (values[0].endedAt <= now) setBuster(buster + 1);
+  }, [cached, buster, now]);
+
+  useEffect(() => {
+    if (!data || !now) return setCached({} as ZoneWeather);
+
+    const out = {} as ZoneWeather;
+    if (data) {
+      for (const [zone, weather] of Object.entries(data)) {
+        if (weather[1].startedAt <= now) out[zone] = weather[1];
+        else out[zone] = weather[0];
+      }
+    }
+
+    setCached(out);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, buster]);
 
   return (
     <Grid container justify="flex-start">
@@ -89,12 +134,12 @@ const ZoneList: FC = () => {
                 passHref
               >
                 <ListItem button component="a">
-                  {settings.state.icons && data && data[zone.id] && (
+                  {settings.state.icons && cached && cached[zone.id] && (
                     <ListItemAvatar className={classes.listAvatarWrap}>
-                      <Tooltip title={data[zone.id].name}>
+                      <Tooltip title={cached[zone.id].name}>
                         <Avatar
                           className={classes.listAvatar}
-                          src={getWeatherIcon(data[zone.id].id)}
+                          src={getWeatherIcon(cached[zone.id].id)}
                         />
                       </Tooltip>
                     </ListItemAvatar>

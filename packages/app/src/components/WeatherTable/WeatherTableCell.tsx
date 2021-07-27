@@ -1,4 +1,3 @@
-import Tooltip from '@material-ui/core/Tooltip';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
@@ -139,13 +138,11 @@ const WeatherTableCell: FC<Props> = ({ highlight = false, value }) => {
     else progress = ((now - time) / EIGHT_HOURS) * 100;
 
     progress = (
-      <Tooltip title="Day">
-        <LinearProgress
-          className={classes.progress}
-          variant="determinate"
-          value={progress}
-        />
-      </Tooltip>
+      <LinearProgress
+        className={classes.progress}
+        variant="determinate"
+        value={progress}
+      />
     );
   }
 

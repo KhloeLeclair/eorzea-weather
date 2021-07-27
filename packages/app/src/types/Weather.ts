@@ -11,4 +11,9 @@ export type RawWeather = {
   startedAt: string;
 };
 
+export type PossibleWeather = {
+  id: string;
+  name: string;
+};
+
 export default Weather;

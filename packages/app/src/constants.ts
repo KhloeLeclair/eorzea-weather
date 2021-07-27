@@ -32,7 +32,7 @@ export const WEATHER_ICONS = {
   snow: 60215,
   thunder: 60209,
   thunderstorms: 60210,
-  umbralStatic: 60222,
+  umbralStatic: 60220,
   umbralWind: 60219,
   wind: 60205,
 } as IconList;

@@ -1,3 +1,4 @@
+import Avatar from '@material-ui/core/Avatar';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -15,7 +16,6 @@ import { useLocale, useMessageFormatter } from '@react-aria/i18n';
 import camelCase from 'lodash/camelCase';
 import chunk from 'lodash/chunk';
 import range from 'lodash/range';
-import uniq from 'lodash/uniq';
 import React, {
   ChangeEvent,
   FC,
@@ -24,12 +24,13 @@ import React, {
   useState,
 } from 'react';
 import useSWR from 'swr';
-import Weather from '../../types/Weather';
+import Weather, { PossibleWeather } from '../../types/Weather';
 import WeatherSummary from '../WeatherSummary';
 import WeatherTableCell from './WeatherTableCell';
 import messages from './intl';
 import { useSettings, ActionKey } from '../../context/settings';
-import { getForecast } from '../../utils/api';
+import { getForecast, getPossibleWeathers } from '../../utils/api';
+import { getWeatherIcon } from '../../utils/icons';
 import { EIGHT_HOURS } from '../../constants';
 
 const useStyles = makeStyles((theme) =>
@@ -71,6 +72,14 @@ const useStyles = makeStyles((theme) =>
         paddingRight: theme.spacing(7),
       },
     },
+    switchContainer: {
+      display: 'flex',
+    },
+    switchIcon: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+      marginRight: theme.spacing(1),
+    },
   }),
 );
 
@@ -84,6 +93,16 @@ const WeatherTable: FC<Props> = ({ zoneID }) => {
   const [highlightedWeathers, setHighlightedWeathers] = useState<string[]>([]);
   const { locale } = useLocale();
   const messageFormatter = useMessageFormatter(messages);
+  const { data: weatherTypes } = useSWR<PossibleWeather[]>(
+    `zone-possible-${zoneID}-${locale}`,
+    () => {
+      const collator = new Intl.Collator(locale);
+      return getPossibleWeathers(camelCase(zoneID), locale).sort((a, b) =>
+        collator.compare(a.name, b.name),
+      );
+    },
+    { refreshInterval: EIGHT_HOURS },
+  );
   const { data: weatherTable } = useSWR<Weather[]>(
     `zone-${zoneID}-${locale}`,
     () => {
@@ -120,7 +139,7 @@ const WeatherTable: FC<Props> = ({ zoneID }) => {
             newValues.push(value);
           }
 
-          return newValues;
+          return newValues.sort();
         });
       }
     },
@@ -128,8 +147,31 @@ const WeatherTable: FC<Props> = ({ zoneID }) => {
   );
 
   useEffect(() => {
-    setHighlightedWeathers([]);
-  }, [zoneID]);
+    const raw = location.hash.slice(1);
+    const out = [];
+    if (raw) {
+      const type_ids = weatherTypes
+        ? weatherTypes.map((entry) => entry.id)
+        : null;
+      for (const entry of raw.split(',')) {
+        if (entry && (!type_ids || type_ids.includes(entry))) out.push(entry);
+      }
+    }
+
+    setHighlightedWeathers(out);
+  }, [weatherTypes, zoneID]);
+
+  useEffect(() => {
+    if (!weatherTypes) return;
+
+    const raw = location.toString();
+    const url = new URL(raw);
+    if (highlightedWeathers.length) url.hash = highlightedWeathers.join(',');
+    else url.hash = '';
+
+    const result = url.toString();
+    if (result !== raw) history.replaceState(history.state, '', result);
+  }, [weatherTypes, highlightedWeathers]);
 
   return (
     <>
@@ -167,7 +209,7 @@ const WeatherTable: FC<Props> = ({ zoneID }) => {
                   >
                     {weatherTableForDay.map((weather) => (
                       <WeatherTableCell
-                        highlight={highlightedWeathers.includes(weather.name)}
+                        highlight={highlightedWeathers.includes(weather.id)}
                         key={`cell-${weather.startedAt.getTime()}`}
                         value={weather}
                       />
@@ -188,18 +230,35 @@ const WeatherTable: FC<Props> = ({ zoneID }) => {
         {messageFormatter('highlight')}
       </FormLabel>
 
-      {weatherTable ? (
+      {weatherTypes ? (
         <FormGroup className={classes.formGroup} row>
-          {uniq(weatherTable.map(({ name }) => name)).map((name) => {
+          {weatherTypes.map((entry) => {
             const control = (
               <Switch
                 color="primary"
                 onChange={handleFilterChange}
-                value={name}
+                checked={highlightedWeathers.includes(entry.id)}
+                value={entry.id}
               />
             );
+            const label = settings.state.icons ? (
+              <div className={classes.switchContainer}>
+                <Avatar
+                  className={classes.switchIcon}
+                  src={getWeatherIcon(entry.id)}
+                />
+                {entry.name}
+              </div>
+            ) : (
+              entry.name
+            );
             return (
-              <FormControlLabel control={control} key={name} label={name} />
+              <FormControlLabel
+                control={control}
+                key={entry.id}
+                label={label}
+                labelPlacement="bottom"
+              />
             );
           })}
         </FormGroup>

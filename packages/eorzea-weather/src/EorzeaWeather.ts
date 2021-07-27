@@ -1,12 +1,24 @@
 import * as weatherChances from './chances';
 import * as locales from './locales';
 import calculateForecastTarget from './utils/calculateForecastTarget';
+import { WEATHER_FAIR_SKIES } from './weathers';
 import * as zones from './zones';
 
 const DEFAULT_LOCALE = 'en';
 
 export interface EorzeaWeatherOptions {
   locale?: string;
+}
+
+type ChanceEntry = [number, string];
+type ChanceTable = ChanceEntry[];
+
+function pickChance(chance: number, chances: ChanceTable): string {
+  for (const entry of chances) {
+    if (chance < entry[0]) return entry[1];
+  }
+
+  return WEATHER_FAIR_SKIES;
 }
 
 export default class EorzeaWeather {
@@ -253,6 +265,14 @@ export default class EorzeaWeather {
     this.#locale = locale;
   }
 
+  getPossibleWeathers(): string[] {
+    const out = new Set<string>();
+    for (const entry of weatherChances[this.#id] as ChanceEntry)
+      out.add(entry[1]);
+
+    return Array.from(out);
+  }
+
   getWeather(date: Date): string {
     return this.translate(`weathers.${this.getWeatherId(date)}`);
   }
@@ -262,9 +282,7 @@ export default class EorzeaWeather {
       throw new TypeError(`'${this.#id}' is undefined zone ID.`);
     }
     const chance = calculateForecastTarget(date);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-    const id: string = weatherChances[this.#id](chance);
-    return id;
+    return pickChance(chance, weatherChances[this.#id]);
   }
 
   getZoneName(): string {

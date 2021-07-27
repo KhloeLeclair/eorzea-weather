@@ -1,31 +1,47 @@
 import range from 'lodash/range';
 import EorzeaWeather from 'eorzea-weather';
 import { HOUR, EIGHT_HOURS, ONE_DAY } from '../constants';
-import Weather from '../types/Weather';
+import Weather, { PossibleWeather } from '../types/Weather';
 
-function getStartTime(date: Date): Date {
+export function getWeatherStartTime(date: Date): Date {
+  const msec = date.getTime();
+  const bell = (msec / HOUR) % 8;
+  const startMsec = msec - Math.round(HOUR * bell);
+  return new Date(startMsec);
+}
+
+export function getDayStartTime(date: Date): Date {
   const msec = date.getTime();
   const bell = (msec / HOUR) % 24;
   const startMsec = msec - Math.round(HOUR * bell);
   return new Date(startMsec);
 }
 
-export function getCurrent(zone: string, locale: string): Weather {
+export function getCurrent(zone: string, locale: string): Weather[] {
   const weather = new EorzeaWeather(zone, { locale });
 
   if (!weather.validate()) throw new Error('Invalid zone ID');
 
-  const startTime = getStartTime(new Date()).getTime(),
+  const startTime = getWeatherStartTime(new Date()).getTime(),
     startedAt = new Date(startTime),
     endedAt = new Date(startTime + EIGHT_HOURS),
-    id = weather.getWeatherId(startedAt);
+    id = weather.getWeatherId(startedAt),
+    next_id = weather.getWeatherId(endedAt);
 
-  return {
-    id,
-    name: weather.translate(`weathers.${id}`),
-    startedAt,
-    endedAt,
-  };
+  return [
+    {
+      id,
+      name: weather.translate(`weathers.${id}`),
+      startedAt,
+      endedAt,
+    },
+    {
+      id: next_id,
+      name: weather.translate(`weathers.${next_id}`),
+      startedAt: endedAt,
+      endedAt: new Date(startTime + EIGHT_HOURS + EIGHT_HOURS),
+    },
+  ];
 }
 
 export function getForecast(id: string, locale: string): Weather[] {
@@ -33,7 +49,7 @@ export function getForecast(id: string, locale: string): Weather[] {
 
   if (!weather.validate()) throw new Error('Invalid zone ID');
 
-  const startTime = getStartTime(new Date()).getTime() - ONE_DAY * 2;
+  const startTime = getDayStartTime(new Date()).getTime() - ONE_DAY * 2;
   const weathers = range(startTime, startTime + ONE_DAY * 10, EIGHT_HOURS).map(
     (time) => {
       const startedAt = new Date(time),
@@ -50,4 +66,19 @@ export function getForecast(id: string, locale: string): Weather[] {
   );
 
   return weathers;
+}
+
+export function getPossibleWeathers(
+  id: string,
+  locale: string,
+): PossibleWeather[] {
+  const weather = new EorzeaWeather(id, { locale });
+  if (!weather.validate()) throw new Error('Invalid zone ID');
+
+  return weather.getPossibleWeathers().map((id) => {
+    return {
+      id,
+      name: weather.translate(`weathers.${id}`),
+    } as PossibleWeather;
+  }) as PossibleWeather[];
 }
