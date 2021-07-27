@@ -33,6 +33,26 @@ const useStyles = makeStyles((theme) =>
         textDecoration: 'underline',
       },
     },
+    bgContainer: {
+      position: 'relative',
+      zIndex: 1,
+
+      '&:before': {
+        position: 'absolute',
+        zIndex: -1,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        content: "' '",
+        backgroundImage: 'var(--map-image)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        opacity: 0.2,
+        filter: 'blur(5px)',
+      },
+    },
   }),
 );
 
@@ -72,20 +92,22 @@ const Layout: FC = ({ children }) => {
 
       <CssBaseline />
 
-      <AppHeader />
+      <div className={classes.bgContainer}>
+        <AppHeader />
 
-      {children}
+        {children}
 
-      <footer className={classes.footer}>
-        <Container className={classes.footerInner}>
-          <div className={classes.grow}>
-            {messageFormatter('legal_note')}
-          </div>
-          <Link href="/privacy" prefetch={false}>
-            <a className={classes.link}>{messageFormatter('privacy_policy')}</a>
-          </Link>
-        </Container>
-      </footer>
+        <footer className={classes.footer}>
+          <Container className={classes.footerInner}>
+            <div className={classes.grow}>{messageFormatter('legal_note')}</div>
+            <Link href="/privacy" prefetch={false}>
+              <a className={classes.link}>
+                {messageFormatter('privacy_policy')}
+              </a>
+            </Link>
+          </Container>
+        </footer>
+      </div>
     </>
   );
 };

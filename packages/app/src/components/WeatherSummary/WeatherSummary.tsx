@@ -27,6 +27,7 @@ import 'dayjs/locale/en';
 import 'dayjs/locale/ja';
 import 'dayjs/locale/de';
 import 'dayjs/locale/fr';
+import { Helmet } from 'react-helmet';
 
 dayjs.extend(Duration);
 dayjs.extend(RelativeTime);
@@ -83,6 +84,7 @@ const useStyles = makeStyles((theme) =>
 
 type Props = {
   zoneID: string;
+  isOverview?: boolean;
   data?: Weather[];
 };
 
@@ -101,7 +103,7 @@ function formatNearTime(time: Date, now: number, fmt: string | null) {
   else return dayjs.duration(dayjs(time).diff(now)).format(fmt);
 }
 
-const WeatherSummary: FC<Props> = ({ zoneID, data }) => {
+const WeatherSummary: FC<Props> = ({ zoneID, isOverview, data }) => {
   const settings = useSettings();
   const { locale } = useLocale();
   const classes = useStyles();
@@ -196,6 +198,19 @@ const WeatherSummary: FC<Props> = ({ zoneID, data }) => {
 
   return (
     <div className={clsx(classes.root, {})}>
+      {!isOverview && cached?.current && (
+        <Helmet>
+          <link
+            rel="shortcut icon"
+            href={getWeatherIcon(cached.current.id, true)}
+          />
+          <title>
+            {cached.current.name} -{' '}
+            {formatNearTime(cached.until.endedAt, now, short_format)} -{' '}
+            {zone.name}
+          </title>
+        </Helmet>
+      )}
       <aside className={classes.aside}>
         {cached ? (
           <Avatar

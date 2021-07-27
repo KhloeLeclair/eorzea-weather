@@ -6,6 +6,7 @@ export type State = {
   locale: Locale;
   hide_clear: boolean;
   icons: boolean;
+  backgrounds: boolean;
   summary: boolean;
   displaySeconds: boolean;
 };
@@ -15,6 +16,7 @@ export type ActionKey =
   | 'dark'
   | 'hide_clear'
   | 'icons'
+  | 'backgrounds'
   | 'summary'
   | 'displaySeconds';
 

@@ -12,6 +12,7 @@ const initialState: State = {
   dark: null,
   locale: null,
   icons: true,
+  backgrounds: false,
   summary: true,
   hide_clear: false,
   displaySeconds: false,

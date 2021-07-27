@@ -3,6 +3,7 @@ import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 import kebabCase from 'lodash/kebabCase';
 import Link from 'next/link';
 import useSWR from 'swr';
@@ -18,6 +19,9 @@ type MultiZoneWeather = {
 
 const useStyles = makeStyles((theme) =>
   createStyles({
+    summaryMap: {
+      background: fade(theme.palette.background.paper, 0.5),
+    },
     summaryCard: {
       marginBottom: theme.spacing(2),
     },
@@ -26,9 +30,10 @@ const useStyles = makeStyles((theme) =>
 
 type Props = {
   zones: string[];
+  hasMap: boolean;
 };
 
-const MultiSummary: FC<Props> = ({ zones }) => {
+const MultiSummary: FC<Props> = ({ zones, hasMap }) => {
   const { locale } = useLocale();
   const classes = useStyles();
 
@@ -49,11 +54,20 @@ const MultiSummary: FC<Props> = ({ zones }) => {
   return (
     <>
       {zones.map((zone) => (
-        <Card key={`item-${zone}`} className={classes.summaryCard}>
+        <Card
+          key={`item-${zone}`}
+          className={`${classes.summaryCard} ${
+            hasMap ? classes.summaryMap : ''
+          }`}
+        >
           <Link href={`/zones/${kebabCase(zone)}`} passHref>
             <CardActionArea>
               <CardContent>
-                <WeatherSummary zoneID={zone} data={data && data[zone]} />
+                <WeatherSummary
+                  zoneID={zone}
+                  isOverview={true}
+                  data={data && data[zone]}
+                />
               </CardContent>
             </CardActionArea>
           </Link>

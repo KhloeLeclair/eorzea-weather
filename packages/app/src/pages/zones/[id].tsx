@@ -9,9 +9,10 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import Ad from '../../components/Ad';
 import WeatherTable from '../../components/WeatherTable';
-import { EORZEA_ZONE_LIST } from '../../constants';
+import { EORZEA_ZONE_LIST, ZONE_MAPS } from '../../constants';
 import { useZone } from '../../context/zone';
 import messages from '../../intl/zone';
+import { useSettings } from '../../context/settings';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -40,15 +41,19 @@ type Props = {
 };
 
 const Zone: NextPage<Props> = ({ id }) => {
+  const settings = useSettings();
   const messageFormatter = useMessageFormatter(messages);
   const zone = useZone({ id });
   const classes = useStyles();
 
   const title = messageFormatter('title', { name: zone.name });
+  const map = settings.state.backgrounds ? ZONE_MAPS[id] : null;
+  const hasMap = map != null;
 
   return (
     <>
       <Helmet>
+        <style>{hasMap ? `:root {--map-image: url("${map}");}` : ''}</style>
         <title>{title}</title>
       </Helmet>
 
@@ -68,7 +73,7 @@ const Zone: NextPage<Props> = ({ id }) => {
             </Container>
           )}
 
-        <WeatherTable zoneID={zone.id} />
+        <WeatherTable zoneID={zone.id} hasMap={hasMap} />
       </main>
     </>
   );

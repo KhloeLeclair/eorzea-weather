@@ -12,6 +12,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Skeleton from '@material-ui/lab/Skeleton';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 import { useLocale, useMessageFormatter } from '@react-aria/i18n';
 import camelCase from 'lodash/camelCase';
 import chunk from 'lodash/chunk';
@@ -52,6 +53,9 @@ const useStyles = makeStyles((theme) =>
       marginTop: theme.spacing(-2),
       marginBottom: theme.spacing(2),
     },
+    mapPaper: {
+      background: fade(theme.palette.background.paper, 0.5),
+    },
     paper: {
       marginBottom: theme.spacing(4),
       marginTop: 0,
@@ -85,9 +89,10 @@ const useStyles = makeStyles((theme) =>
 
 type Props = {
   zoneID: string;
+  hasMap: boolean;
 };
 
-const WeatherTable: FC<Props> = ({ zoneID }) => {
+const WeatherTable: FC<Props> = ({ zoneID, hasMap }) => {
   const settings = useSettings();
 
   const [highlightedWeathers, setHighlightedWeathers] = useState<string[]>([]);
@@ -180,7 +185,10 @@ const WeatherTable: FC<Props> = ({ zoneID }) => {
           <WeatherSummary zoneID={zoneID} data={weatherTable} />
         </div>
       ) : null}
-      <TableContainer className={classes.paper} component={Paper}>
+      <TableContainer
+        className={`${classes.paper} ${hasMap ? classes.mapPaper : ''}`}
+        component={Paper}
+      >
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
@@ -282,6 +290,17 @@ const WeatherTable: FC<Props> = ({ zoneID }) => {
       </FormLabel>
 
       <FormGroup className={classes.formGroup} row>
+        <FormControlLabel
+          control={
+            <Switch
+              color="primary"
+              value="backgrounds"
+              checked={settings.state.backgrounds}
+              onChange={handleSettingToggle}
+            />
+          }
+          label={messageFormatter('backgrounds')}
+        />
         <FormControlLabel
           control={
             <Switch

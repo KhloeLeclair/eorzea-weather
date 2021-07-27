@@ -51,6 +51,7 @@ export const areaMap = {
     EorzeaWeather.ZONE_THE_DRAVANIAN_FORELANDS,
     EorzeaWeather.ZONE_THE_DRAVANIAN_HINTERLANDS,
     EorzeaWeather.ZONE_THE_CHURNING_MISTS,
+    EorzeaWeather.ZONE_THE_DIADEM,
   ],
   gyrAbania: [
     EorzeaWeather.ZONE_RHALGRS_REACH,

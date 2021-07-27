@@ -10,6 +10,8 @@ import React from 'react';
 import messages from '../../intl/overview';
 import { camelCase, kebabCase } from 'lodash';
 import { areaMap, useZoneList } from '../../context/zone/hooks';
+import { ZONE_MAPS } from '../../constants';
+import { useSettings } from '../../context/settings';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -38,6 +40,7 @@ type Props = {
 };
 
 const Overview: NextPage<Props> = ({ id }) => {
+  const settings = useSettings();
   const formatMessage = useMessageFormatter(messages);
   const classes = useStyles();
   const regions = useZoneList();
@@ -48,9 +51,14 @@ const Overview: NextPage<Props> = ({ id }) => {
 
   const title = formatMessage('title', { region: region.name });
 
+  const random_zone = zones[Math.floor(Math.random()*zones.length)];
+  const map = settings.state.backgrounds ? ZONE_MAPS[random_zone] : null;
+  const hasMap = map != null;
+
   return (
     <>
       <Helmet bodyAttributes={{ class: 'overview' }}>
+        <style>{hasMap ? `:root {--map-image: url("${map}");}` : ''}</style>
         <title>{title}</title>
       </Helmet>
 
@@ -69,7 +77,7 @@ const Overview: NextPage<Props> = ({ id }) => {
             </Container>
           )}
 
-        <MultiSummary zones={zones} />
+        <MultiSummary zones={zones} hasMap={hasMap} />
       </main>
     </>
   );
