@@ -3,6 +3,8 @@ import EorzeaWeather from 'eorzea-weather';
 import { HOUR, EIGHT_HOURS, ONE_DAY } from '../constants';
 import Weather, { PossibleWeather } from '../types/Weather';
 
+type Zone = typeof EorzeaWeather.ZONE_AMH_ARAENG;
+
 export function getWeatherStartTime(date: Date): Date {
   const msec = date.getTime();
   const bell = (msec / HOUR) % 8;
@@ -17,7 +19,9 @@ export function getDayStartTime(date: Date): Date {
   return new Date(startMsec);
 }
 
-export function getCurrent(zone: string, locale: string): Weather[] {
+export type Locale = 'en' | 'de' | 'fr' | 'ja';
+
+export function getCurrent(zone: Zone, locale: Locale): Weather[] {
   const weather = new EorzeaWeather(zone, { locale });
 
   if (!weather.validate()) throw new Error('Invalid zone ID');
@@ -44,8 +48,8 @@ export function getCurrent(zone: string, locale: string): Weather[] {
   ];
 }
 
-export function getForecast(id: string, locale: string): Weather[] {
-  const weather = new EorzeaWeather(id, { locale });
+export function getForecast(zone: Zone, locale: Locale): Weather[] {
+  const weather = new EorzeaWeather(zone, { locale });
 
   if (!weather.validate()) throw new Error('Invalid zone ID');
 
@@ -69,10 +73,10 @@ export function getForecast(id: string, locale: string): Weather[] {
 }
 
 export function getPossibleWeathers(
-  id: string,
-  locale: string,
+  zone: Zone,
+  locale: Locale,
 ): PossibleWeather[] {
-  const weather = new EorzeaWeather(id, { locale });
+  const weather = new EorzeaWeather(zone, { locale });
   if (!weather.validate()) throw new Error('Invalid zone ID');
 
   return weather.getPossibleWeathers().map((id) => {
@@ -80,5 +84,5 @@ export function getPossibleWeathers(
       id,
       name: weather.translate(`weathers.${id}`),
     } as PossibleWeather;
-  }) as PossibleWeather[];
+  });
 }

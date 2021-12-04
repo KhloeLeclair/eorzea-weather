@@ -16,8 +16,13 @@ export default {
   'weathers.umbralStatic': '放電',
   'weathers.umbralWind': '霊風',
   'weathers.wind': '風',
+
+  'weathers.astromagneticStorm': '磁気嵐',
+  'weathers.moonDust': '月砂塵',
+
   'zones.amhAraeng': 'アム・アレーン',
   'zones.azysLla': 'アジス・ラー',
+
   'zones.bozjanSouthernFront': '南方ボズヤ戦線',
   'zones.centralShroud': '黒衣森：中央森林',
   'zones.centralThanalan': '中央ザナラーン',
@@ -26,18 +31,33 @@ export default {
   'zones.eastShroud': '黒衣森：東部森林',
   'zones.easternLaNoscea': '東ラノシア',
   'zones.easternThanalan': '東ザナラーン',
+
+  'zones.empyreum': 'エンピレアム',
+  'zones.oldSharlayan': 'オールド・シャーレアン',
+  'zones.labyrinthos': 'ラヴィリンソス',
+  'zones.radzAtHan': 'ラザハン',
+  'zones.thavnair': 'サベネア島',
+  'zones.garlemald': 'ガレマルド',
+  'zones.mareLamentorum': '嘆きの海',
+  'zones.ultimaThule': 'ウルティマ・トゥーレ',
+  'zones.elpis': 'エルピス',
+
   'zones.eulmore': 'ユールモア',
+
   'zones.eurekaAnemos': 'エウレカ：アネモス帯',
   'zones.eurekaHydatos': 'エウレカ：ヒュダトス帯',
   'zones.eurekaPagos': 'エウレカ：パゴス帯',
   'zones.eurekaPyros': 'エウレカ：ピューロス帯',
+
   'zones.gridania': 'グリダニア',
   'zones.idyllshire': 'イデルシャイア',
+
   'zones.ilMheg': '妖精郷イル・メグ',
   'zones.ishgard': 'イシュガルド',
   'zones.kholusia': 'コルシア島',
   'zones.kugane': 'クガネ',
   'zones.lakeland': 'レイクランド',
+
   'zones.limsaLominsa': 'リムサ・ロミンサ',
   'zones.lowerLaNoscea': '低地ラノシア',
   'zones.middleLaNoscea': '中央ラノシア',
@@ -47,6 +67,7 @@ export default {
   'zones.northShroud': '黒衣森：北部森林',
   'zones.outerLaNoscea': '外地ラノシア',
   'zones.rhalgrsReach': 'ラールガーズリーチ',
+
   'zones.shirogane': 'シロガネ',
   'zones.southShroud': '黒衣森：南部森林',
   'zones.southernThanalan': '南ザナラーン',

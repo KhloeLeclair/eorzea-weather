@@ -1,497 +1,565 @@
-import {
-  WEATHER_BLIZZARDS,
-  WEATHER_CLEAR_SKIES,
-  WEATHER_CLOUDS,
-  WEATHER_DUST_STORMS,
-  WEATHER_FAIR_SKIES,
-  WEATHER_FOG,
-  WEATHER_GALES,
-  WEATHER_GLOOM,
-  WEATHER_HEAT_WAVES,
-  WEATHER_RAIN,
-  WEATHER_SHOWERS,
-  WEATHER_SNOW,
-  WEATHER_THUNDER,
-  WEATHER_THUNDERSTORMS,
-  WEATHER_UMBRAL_STATIC,
-  WEATHER_UMBRAL_WIND,
-  WEATHER_WIND,
-} from './weathers';
+import Weather from './weathers';
+import Zone from './zones';
 
-export const amhAraeng = [
-  [45, WEATHER_FAIR_SKIES],
-  [60, WEATHER_CLOUDS],
-  [70, WEATHER_DUST_STORMS],
-  [80, WEATHER_HEAT_WAVES],
-  [Infinity, WEATHER_CLEAR_SKIES],
+export type ChanceEntry = [number, Weather];
+
+const Chances = {} as Record<Zone, ChanceEntry[]>;
+export default Chances;
+
+export const DefaultChances = [[Infinity, Weather.FairSkies]] as ChanceEntry[];
+
+Chances[Zone.AmhAraeng] = [
+  [45, Weather.FairSkies],
+  [60, Weather.Clouds],
+  [70, Weather.DustStorms],
+  [80, Weather.HeatWaves],
+  [Infinity, Weather.ClearSkies],
 ];
 
-export const azysLla = [
-  [35, WEATHER_FAIR_SKIES],
-  [70, WEATHER_CLOUDS],
-  [Infinity, WEATHER_THUNDER],
+Chances[Zone.AzysLla] = [
+  [35, Weather.FairSkies],
+  [70, Weather.Clouds],
+  [Infinity, Weather.Thunder],
 ];
 
-export const bozjanSouthernFront = [
-  [52, WEATHER_FAIR_SKIES],
-  [64, WEATHER_RAIN],
-  [76, WEATHER_WIND],
-  [88, WEATHER_THUNDER],
-  [Infinity, WEATHER_DUST_STORMS],
+Chances[Zone.BozjanSouthernFront] = [
+  [52, Weather.FairSkies],
+  [64, Weather.Rain],
+  [76, Weather.Wind],
+  [88, Weather.Thunder],
+  [Infinity, Weather.DustStorms],
 ];
 
-export const centralShroud = [
-  [5, WEATHER_THUNDER],
-  [20, WEATHER_RAIN],
-  [30, WEATHER_FOG],
-  [40, WEATHER_CLOUDS],
-  [55, WEATHER_FAIR_SKIES],
-  [85, WEATHER_CLEAR_SKIES],
-  [Infinity, WEATHER_FAIR_SKIES],
+Chances[Zone.CentralShroud] = [
+  [5, Weather.Thunder],
+  [20, Weather.Rain],
+  [30, Weather.Fog],
+  [40, Weather.Clouds],
+  [55, Weather.FairSkies],
+  [85, Weather.ClearSkies],
+  [Infinity, Weather.FairSkies],
 ];
 
-export const centralThanalan = [
-  [15, WEATHER_DUST_STORMS],
-  [55, WEATHER_CLEAR_SKIES],
-  [75, WEATHER_FAIR_SKIES],
-  [85, WEATHER_CLOUDS],
-  [95, WEATHER_FOG],
-  [Infinity, WEATHER_RAIN],
+Chances[Zone.CentralThanalan] = [
+  [15, Weather.DustStorms],
+  [55, Weather.ClearSkies],
+  [75, Weather.FairSkies],
+  [85, Weather.Clouds],
+  [95, Weather.Fog],
+  [Infinity, Weather.Rain],
 ];
 
-export const coerthasCentralHighlands = [
-  [20, WEATHER_BLIZZARDS],
-  [60, WEATHER_SNOW],
-  [70, WEATHER_FAIR_SKIES],
-  [75, WEATHER_CLEAR_SKIES],
-  [90, WEATHER_CLOUDS],
-  [Infinity, WEATHER_FOG],
+Chances[Zone.CoerthasCentralHighlands] = [
+  [20, Weather.Blizzards],
+  [60, Weather.Snow],
+  [70, Weather.FairSkies],
+  [75, Weather.ClearSkies],
+  [90, Weather.Clouds],
+  [Infinity, Weather.Fog],
 ];
 
-export const coerthasWesternHighlands = [
-  [20, WEATHER_BLIZZARDS],
-  [60, WEATHER_SNOW],
-  [70, WEATHER_FAIR_SKIES],
-  [75, WEATHER_CLEAR_SKIES],
-  [90, WEATHER_CLOUDS],
-  [Infinity, WEATHER_FOG],
+Chances[Zone.CoerthasWesternHighlands] = [
+  [20, Weather.Blizzards],
+  [60, Weather.Snow],
+  [70, Weather.FairSkies],
+  [75, Weather.ClearSkies],
+  [90, Weather.Clouds],
+  [Infinity, Weather.Fog],
 ];
 
-export const eastShroud = [
-  [5, WEATHER_THUNDER],
-  [20, WEATHER_RAIN],
-  [30, WEATHER_FOG],
-  [40, WEATHER_CLOUDS],
-  [55, WEATHER_FAIR_SKIES],
-  [85, WEATHER_CLEAR_SKIES],
-  [Infinity, WEATHER_FAIR_SKIES],
+Chances[Zone.EastShroud] = [
+  [5, Weather.Thunder],
+  [20, Weather.Rain],
+  [30, Weather.Fog],
+  [40, Weather.Clouds],
+  [55, Weather.FairSkies],
+  [85, Weather.ClearSkies],
+  [Infinity, Weather.FairSkies],
 ];
 
-export const easternLaNoscea = [
-  [5, WEATHER_FOG],
-  [50, WEATHER_CLEAR_SKIES],
-  [80, WEATHER_FAIR_SKIES],
-  [90, WEATHER_CLOUDS],
-  [95, WEATHER_RAIN],
-  [Infinity, WEATHER_SHOWERS],
+Chances[Zone.EasternLaNoscea] = [
+  [5, Weather.Fog],
+  [50, Weather.ClearSkies],
+  [80, Weather.FairSkies],
+  [90, Weather.Clouds],
+  [95, Weather.Rain],
+  [Infinity, Weather.Showers],
 ];
 
-export const easternThanalan = [
-  [40, WEATHER_CLEAR_SKIES],
-  [60, WEATHER_FAIR_SKIES],
-  [70, WEATHER_CLOUDS],
-  [80, WEATHER_FOG],
-  [85, WEATHER_RAIN],
-  [Infinity, WEATHER_SHOWERS],
+Chances[Zone.EasternThanalan] = [
+  [40, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [70, Weather.Clouds],
+  [80, Weather.Fog],
+  [85, Weather.Rain],
+  [Infinity, Weather.Showers],
 ];
 
-export const eulmore = [
-  [10, WEATHER_GALES],
-  [20, WEATHER_RAIN],
-  [30, WEATHER_FOG],
-  [45, WEATHER_CLOUDS],
-  [85, WEATHER_FAIR_SKIES],
-  [Infinity, WEATHER_CLEAR_SKIES],
+// WeatherRate: 134
+Chances[Zone.Elpis] = [
+  [25, Weather.Clouds],
+  [40, Weather.UmbralWind],
+  [85, Weather.FairSkies],
+  [Infinity, Weather.ClearSkies],
 ];
 
-export const eurekaAnemos = [
-  [30, WEATHER_FAIR_SKIES],
-  [60, WEATHER_GALES],
-  [90, WEATHER_SHOWERS],
-  [Infinity, WEATHER_SNOW],
+// WeatherRate: 142
+Chances[Zone.Empyreum] = [
+  [5, Weather.Snow],
+  [25, Weather.FairSkies],
+  [65, Weather.ClearSkies],
+  [80, Weather.Clouds],
+  [Infinity, Weather.Fog],
 ];
 
-export const eurekaHydatos = [
-  [12, WEATHER_FAIR_SKIES],
-  [34, WEATHER_SHOWERS],
-  [56, WEATHER_GLOOM],
-  [78, WEATHER_THUNDERSTORMS],
-  [Infinity, WEATHER_SNOW],
+Chances[Zone.Eulmore] = [
+  [10, Weather.Gales],
+  [20, Weather.Rain],
+  [30, Weather.Fog],
+  [45, Weather.Clouds],
+  [85, Weather.FairSkies],
+  [Infinity, Weather.ClearSkies],
 ];
 
-export const eurekaPagos = [
-  [10, WEATHER_FAIR_SKIES],
-  [28, WEATHER_FOG],
-  [46, WEATHER_HEAT_WAVES],
-  [64, WEATHER_SNOW],
-  [82, WEATHER_THUNDER],
-  [Infinity, WEATHER_BLIZZARDS],
+Chances[Zone.EurekaAnemos] = [
+  [30, Weather.FairSkies],
+  [60, Weather.Gales],
+  [90, Weather.Showers],
+  [Infinity, Weather.Snow],
 ];
 
-export const eurekaPyros = [
-  [10, WEATHER_FAIR_SKIES],
-  [28, WEATHER_HEAT_WAVES],
-  [46, WEATHER_THUNDER],
-  [64, WEATHER_BLIZZARDS],
-  [82, WEATHER_UMBRAL_WIND],
-  [Infinity, WEATHER_SNOW],
+Chances[Zone.EurekaHydatos] = [
+  [12, Weather.FairSkies],
+  [34, Weather.Showers],
+  [56, Weather.Gloom],
+  [78, Weather.Thunderstorms],
+  [Infinity, Weather.Snow],
 ];
 
-export const gridania = [
-  [20, WEATHER_RAIN],
-  [30, WEATHER_FOG],
-  [40, WEATHER_CLOUDS],
-  [55, WEATHER_FAIR_SKIES],
-  [85, WEATHER_CLEAR_SKIES],
-  [Infinity, WEATHER_FAIR_SKIES],
+Chances[Zone.EurekaPagos] = [
+  [10, Weather.FairSkies],
+  [28, Weather.Fog],
+  [46, Weather.HeatWaves],
+  [64, Weather.Snow],
+  [82, Weather.Thunder],
+  [Infinity, Weather.Blizzards],
 ];
 
-export const idyllshire = [
-  [10, WEATHER_CLOUDS],
-  [20, WEATHER_FOG],
-  [30, WEATHER_RAIN],
-  [40, WEATHER_SHOWERS],
-  [70, WEATHER_CLEAR_SKIES],
-  [Infinity, WEATHER_FAIR_SKIES],
+Chances[Zone.EurekaPyros] = [
+  [10, Weather.FairSkies],
+  [28, Weather.HeatWaves],
+  [46, Weather.Thunder],
+  [64, Weather.Blizzards],
+  [82, Weather.UmbralWind],
+  [Infinity, Weather.Snow],
 ];
 
-export const ilMheg = [
-  [10, WEATHER_RAIN],
-  [20, WEATHER_FOG],
-  [35, WEATHER_CLOUDS],
-  [45, WEATHER_THUNDERSTORMS],
-  [60, WEATHER_CLEAR_SKIES],
-  [Infinity, WEATHER_FAIR_SKIES],
+// WeatherRate: 133
+Chances[Zone.Garlemald] = [
+  [45, Weather.Snow],
+  [50, Weather.Thunder],
+  [55, Weather.Rain],
+  [60, Weather.Fog],
+  [85, Weather.Clouds],
+  [95, Weather.FairSkies],
+  [Infinity, Weather.ClearSkies],
 ];
 
-export const ishgard = [
-  [60, WEATHER_SNOW],
-  [70, WEATHER_FAIR_SKIES],
-  [75, WEATHER_CLEAR_SKIES],
-  [90, WEATHER_CLOUDS],
-  [Infinity, WEATHER_FOG],
+Chances[Zone.Gridania] = [
+  [20, Weather.Rain],
+  [30, Weather.Fog],
+  [40, Weather.Clouds],
+  [55, Weather.FairSkies],
+  [85, Weather.ClearSkies],
+  [Infinity, Weather.FairSkies],
 ];
 
-export const kholusia = [
-  [10, WEATHER_GALES],
-  [20, WEATHER_RAIN],
-  [30, WEATHER_FOG],
-  [45, WEATHER_CLOUDS],
-  [85, WEATHER_FAIR_SKIES],
-  [Infinity, WEATHER_CLEAR_SKIES],
+Chances[Zone.Idyllshire] = [
+  [10, Weather.Clouds],
+  [20, Weather.Fog],
+  [30, Weather.Rain],
+  [40, Weather.Showers],
+  [70, Weather.ClearSkies],
+  [Infinity, Weather.FairSkies],
 ];
 
-export const kugane = [
-  [10, WEATHER_RAIN],
-  [20, WEATHER_FOG],
-  [40, WEATHER_CLOUDS],
-  [80, WEATHER_FAIR_SKIES],
-  [Infinity, WEATHER_CLEAR_SKIES],
+Chances[Zone.IlMheg] = [
+  [10, Weather.Rain],
+  [20, Weather.Fog],
+  [35, Weather.Clouds],
+  [45, Weather.Thunderstorms],
+  [60, Weather.ClearSkies],
+  [Infinity, Weather.FairSkies],
 ];
 
-export const lakeland = [
-  [20, WEATHER_CLEAR_SKIES],
-  [60, WEATHER_FAIR_SKIES],
-  [75, WEATHER_CLOUDS],
-  [85, WEATHER_FOG],
-  [95, WEATHER_RAIN],
-  [Infinity, WEATHER_THUNDERSTORMS],
+Chances[Zone.Ishgard] = [
+  [60, Weather.Snow],
+  [70, Weather.FairSkies],
+  [75, Weather.ClearSkies],
+  [90, Weather.Clouds],
+  [Infinity, Weather.Fog],
 ];
 
-export const limsaLominsa = [
-  [20, WEATHER_CLOUDS],
-  [50, WEATHER_CLEAR_SKIES],
-  [80, WEATHER_FAIR_SKIES],
-  [90, WEATHER_FOG],
-  [Infinity, WEATHER_RAIN],
+Chances[Zone.Kholusia] = [
+  [10, Weather.Gales],
+  [20, Weather.Rain],
+  [30, Weather.Fog],
+  [45, Weather.Clouds],
+  [85, Weather.FairSkies],
+  [Infinity, Weather.ClearSkies],
 ];
 
-export const lowerLaNoscea = [
-  [20, WEATHER_CLOUDS],
-  [50, WEATHER_CLEAR_SKIES],
-  [70, WEATHER_FAIR_SKIES],
-  [80, WEATHER_WIND],
-  [90, WEATHER_FOG],
-  [Infinity, WEATHER_RAIN],
+Chances[Zone.Kugane] = [
+  [10, Weather.Rain],
+  [20, Weather.Fog],
+  [40, Weather.Clouds],
+  [80, Weather.FairSkies],
+  [Infinity, Weather.ClearSkies],
 ];
 
-export const middleLaNoscea = [
-  [20, WEATHER_CLOUDS],
-  [50, WEATHER_CLEAR_SKIES],
-  [70, WEATHER_FAIR_SKIES],
-  [80, WEATHER_WIND],
-  [90, WEATHER_FOG],
-  [Infinity, WEATHER_RAIN],
+// WeatherRate: 131
+Chances[Zone.Labyrinthos] = [
+  [15, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [85, Weather.Clouds],
+  [Infinity, Weather.Rain],
 ];
 
-export const mist = [
-  [20, WEATHER_CLOUDS],
-  [50, WEATHER_CLEAR_SKIES],
-  [70, WEATHER_FAIR_SKIES],
-  [80, WEATHER_FAIR_SKIES],
-  [90, WEATHER_FOG],
-  [Infinity, WEATHER_RAIN],
+Chances[Zone.Lakeland] = [
+  [20, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [75, Weather.Clouds],
+  [85, Weather.Fog],
+  [95, Weather.Rain],
+  [Infinity, Weather.Thunderstorms],
 ];
 
-export const morDhona = [
-  [15, WEATHER_CLOUDS],
-  [30, WEATHER_FOG],
-  [60, WEATHER_GLOOM],
-  [75, WEATHER_CLEAR_SKIES],
-  [Infinity, WEATHER_FAIR_SKIES],
+Chances[Zone.LimsaLominsa] = [
+  [20, Weather.Clouds],
+  [50, Weather.ClearSkies],
+  [80, Weather.FairSkies],
+  [90, Weather.Fog],
+  [Infinity, Weather.Rain],
 ];
 
-export const northShroud = [
-  [5, WEATHER_FOG],
-  [10, WEATHER_SHOWERS],
-  [25, WEATHER_RAIN],
-  [30, WEATHER_FOG],
-  [40, WEATHER_CLOUDS],
-  [70, WEATHER_FAIR_SKIES],
-  [Infinity, WEATHER_CLEAR_SKIES],
+Chances[Zone.LowerLaNoscea] = [
+  [20, Weather.Clouds],
+  [50, Weather.ClearSkies],
+  [70, Weather.FairSkies],
+  [80, Weather.Wind],
+  [90, Weather.Fog],
+  [Infinity, Weather.Rain],
 ];
 
-export const northernThanalan = [
-  [5, WEATHER_CLEAR_SKIES],
-  [20, WEATHER_FAIR_SKIES],
-  [50, WEATHER_CLOUDS],
-  [Infinity, WEATHER_FOG],
+// WeatherRate: 135
+Chances[Zone.MareLamentorum] = [
+  [15, Weather.UmbralWind],
+  [30, Weather.MoonDust],
+  [Infinity, Weather.FairSkies],
 ];
 
-export const outerLaNoscea = [
-  [30, WEATHER_CLEAR_SKIES],
-  [50, WEATHER_FAIR_SKIES],
-  [70, WEATHER_CLOUDS],
-  [85, WEATHER_FOG],
-  [Infinity, WEATHER_RAIN],
+Chances[Zone.MiddleLaNoscea] = [
+  [20, Weather.Clouds],
+  [50, Weather.ClearSkies],
+  [70, Weather.FairSkies],
+  [80, Weather.Wind],
+  [90, Weather.Fog],
+  [Infinity, Weather.Rain],
 ];
 
-export const rhalgrsReach = [
-  [15, WEATHER_CLEAR_SKIES],
-  [60, WEATHER_FAIR_SKIES],
-  [80, WEATHER_CLOUDS],
-  [90, WEATHER_FOG],
-  [Infinity, WEATHER_THUNDER],
+Chances[Zone.Mist] = [
+  [20, Weather.Clouds],
+  [50, Weather.ClearSkies],
+  [70, Weather.FairSkies],
+  [80, Weather.FairSkies],
+  [90, Weather.Fog],
+  [Infinity, Weather.Rain],
 ];
 
-export const shirogane = [
-  [10, WEATHER_RAIN],
-  [20, WEATHER_FOG],
-  [40, WEATHER_CLOUDS],
-  [80, WEATHER_FAIR_SKIES],
-  [Infinity, WEATHER_CLEAR_SKIES],
+Chances[Zone.MorDhona] = [
+  [15, Weather.Clouds],
+  [30, Weather.Fog],
+  [60, Weather.Gloom],
+  [75, Weather.ClearSkies],
+  [Infinity, Weather.FairSkies],
 ];
 
-export const southShroud = [
-  [5, WEATHER_FOG],
-  [10, WEATHER_THUNDERSTORMS],
-  [25, WEATHER_THUNDER],
-  [30, WEATHER_FOG],
-  [40, WEATHER_CLOUDS],
-  [70, WEATHER_FAIR_SKIES],
-  [Infinity, WEATHER_CLEAR_SKIES],
+Chances[Zone.NorthShroud] = [
+  [5, Weather.Fog],
+  [10, Weather.Showers],
+  [25, Weather.Rain],
+  [30, Weather.Fog],
+  [40, Weather.Clouds],
+  [70, Weather.FairSkies],
+  [Infinity, Weather.ClearSkies],
 ];
 
-export const southernThanalan = [
-  [20, WEATHER_HEAT_WAVES],
-  [60, WEATHER_CLEAR_SKIES],
-  [80, WEATHER_FAIR_SKIES],
-  [90, WEATHER_CLOUDS],
-  [Infinity, WEATHER_FOG],
+Chances[Zone.NorthernThanalan] = [
+  [5, Weather.ClearSkies],
+  [20, Weather.FairSkies],
+  [50, Weather.Clouds],
+  [Infinity, Weather.Fog],
 ];
 
-export const theAzimSteppe = [
-  [5, WEATHER_GALES],
-  [10, WEATHER_WIND],
-  [17, WEATHER_RAIN],
-  [25, WEATHER_FOG],
-  [35, WEATHER_CLOUDS],
-  [75, WEATHER_FAIR_SKIES],
-  [Infinity, WEATHER_CLEAR_SKIES],
+// WeatherRate: 137
+Chances[Zone.OldSharlayan] = [
+  [10, Weather.ClearSkies],
+  [50, Weather.FairSkies],
+  [70, Weather.Clouds],
+  [85, Weather.Fog],
+  [Infinity, Weather.Snow],
 ];
 
-export const theChurningMists = [
-  [10, WEATHER_CLOUDS],
-  [20, WEATHER_GALES],
-  [40, WEATHER_UMBRAL_STATIC],
-  [70, WEATHER_CLEAR_SKIES],
-  [Infinity, WEATHER_FAIR_SKIES],
+Chances[Zone.OuterLaNoscea] = [
+  [30, Weather.ClearSkies],
+  [50, Weather.FairSkies],
+  [70, Weather.Clouds],
+  [85, Weather.Fog],
+  [Infinity, Weather.Rain],
 ];
 
-export const theCrystarium = [
-  [20, WEATHER_CLEAR_SKIES],
-  [60, WEATHER_FAIR_SKIES],
-  [75, WEATHER_CLOUDS],
-  [85, WEATHER_FOG],
-  [95, WEATHER_RAIN],
-  [Infinity, WEATHER_THUNDERSTORMS],
+// WeatherRate: 138
+Chances[Zone.RadzAtHan] = [
+  [10, Weather.Fog],
+  [25, Weather.Rain],
+  [40, Weather.ClearSkies],
+  [80, Weather.FairSkies],
+  [Infinity, Weather.Clouds],
 ];
 
-export const theDiadem = [
-  [30, WEATHER_FAIR_SKIES],
-  [60, WEATHER_FOG],
-  [90, WEATHER_WIND],
-  [Infinity, WEATHER_UMBRAL_WIND],
+Chances[Zone.RhalgrsReach] = [
+  [15, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [80, Weather.Clouds],
+  [90, Weather.Fog],
+  [Infinity, Weather.Thunder],
 ];
 
-export const theDravanianForelands = [
-  [10, WEATHER_CLOUDS],
-  [20, WEATHER_FOG],
-  [30, WEATHER_THUNDER],
-  [40, WEATHER_DUST_STORMS],
-  [70, WEATHER_CLEAR_SKIES],
-  [Infinity, WEATHER_FAIR_SKIES],
+Chances[Zone.Shirogane] = [
+  [10, Weather.Rain],
+  [20, Weather.Fog],
+  [40, Weather.Clouds],
+  [80, Weather.FairSkies],
+  [Infinity, Weather.ClearSkies],
 ];
 
-export const theDravanianHinterlands = [
-  [10, WEATHER_CLOUDS],
-  [20, WEATHER_FOG],
-  [30, WEATHER_RAIN],
-  [40, WEATHER_SHOWERS],
-  [70, WEATHER_CLEAR_SKIES],
-  [Infinity, WEATHER_FAIR_SKIES],
+Chances[Zone.SouthShroud] = [
+  [5, Weather.Fog],
+  [10, Weather.Thunderstorms],
+  [25, Weather.Thunder],
+  [30, Weather.Fog],
+  [40, Weather.Clouds],
+  [70, Weather.FairSkies],
+  [Infinity, Weather.ClearSkies],
 ];
 
-export const theFringes = [
-  [15, WEATHER_CLEAR_SKIES],
-  [60, WEATHER_FAIR_SKIES],
-  [80, WEATHER_CLOUDS],
-  [90, WEATHER_FOG],
-  [Infinity, WEATHER_THUNDER],
+Chances[Zone.SouthernThanalan] = [
+  [20, Weather.HeatWaves],
+  [60, Weather.ClearSkies],
+  [80, Weather.FairSkies],
+  [90, Weather.Clouds],
+  [Infinity, Weather.Fog],
 ];
 
-export const theGoblet = [
-  [40, WEATHER_CLEAR_SKIES],
-  [60, WEATHER_FAIR_SKIES],
-  [85, WEATHER_CLOUDS],
-  [95, WEATHER_FOG],
-  [Infinity, WEATHER_RAIN],
+// WeatherRate: 132
+Chances[Zone.Thavnair] = [
+  [10, Weather.Fog],
+  [20, Weather.Rain],
+  [25, Weather.Showers],
+  [40, Weather.ClearSkies],
+  [80, Weather.FairSkies],
+  [Infinity, Weather.Clouds],
 ];
 
-export const theLavenderBeds = [
-  [5, WEATHER_CLOUDS],
-  [20, WEATHER_RAIN],
-  [30, WEATHER_FOG],
-  [40, WEATHER_CLOUDS],
-  [55, WEATHER_FAIR_SKIES],
-  [85, WEATHER_CLEAR_SKIES],
-  [Infinity, WEATHER_FAIR_SKIES],
+Chances[Zone.TheAzimSteppe] = [
+  [5, Weather.Gales],
+  [10, Weather.Wind],
+  [17, Weather.Rain],
+  [25, Weather.Fog],
+  [35, Weather.Clouds],
+  [75, Weather.FairSkies],
+  [Infinity, Weather.ClearSkies],
 ];
 
-export const theLochs = [
-  [20, WEATHER_CLEAR_SKIES],
-  [60, WEATHER_FAIR_SKIES],
-  [80, WEATHER_CLOUDS],
-  [90, WEATHER_FOG],
-  [Infinity, WEATHER_THUNDERSTORMS],
+Chances[Zone.TheChurningMists] = [
+  [10, Weather.Clouds],
+  [20, Weather.Gales],
+  [40, Weather.UmbralStatic],
+  [70, Weather.ClearSkies],
+  [Infinity, Weather.FairSkies],
 ];
 
-export const thePeaks = [
-  [10, WEATHER_CLEAR_SKIES],
-  [60, WEATHER_FAIR_SKIES],
-  [75, WEATHER_CLOUDS],
-  [85, WEATHER_FOG],
-  [95, WEATHER_WIND],
-  [Infinity, WEATHER_DUST_STORMS],
+Chances[Zone.TheCrystarium] = [
+  [20, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [75, Weather.Clouds],
+  [85, Weather.Fog],
+  [95, Weather.Rain],
+  [Infinity, Weather.Thunderstorms],
 ];
 
-export const theRaktikaGreatwood = [
-  [10, WEATHER_FOG],
-  [20, WEATHER_RAIN],
-  [30, WEATHER_UMBRAL_WIND],
-  [45, WEATHER_CLEAR_SKIES],
-  [85, WEATHER_FAIR_SKIES],
-  [Infinity, WEATHER_CLOUDS],
+Chances[Zone.TheDiadem] = [
+  [30, Weather.FairSkies],
+  [60, Weather.Fog],
+  [90, Weather.Wind],
+  [Infinity, Weather.UmbralWind],
 ];
 
-export const theRubySea = [
-  [10, WEATHER_THUNDER],
-  [20, WEATHER_WIND],
-  [35, WEATHER_CLOUDS],
-  [75, WEATHER_FAIR_SKIES],
-  [Infinity, WEATHER_CLEAR_SKIES],
+Chances[Zone.TheDravanianForelands] = [
+  [10, Weather.Clouds],
+  [20, Weather.Fog],
+  [30, Weather.Thunder],
+  [40, Weather.DustStorms],
+  [70, Weather.ClearSkies],
+  [Infinity, Weather.FairSkies],
 ];
 
-export const theSeaOfClouds = [
-  [30, WEATHER_CLEAR_SKIES],
-  [60, WEATHER_FAIR_SKIES],
-  [70, WEATHER_CLOUDS],
-  [80, WEATHER_FOG],
-  [90, WEATHER_WIND],
-  [Infinity, WEATHER_UMBRAL_WIND],
+Chances[Zone.TheDravanianHinterlands] = [
+  [10, Weather.Clouds],
+  [20, Weather.Fog],
+  [30, Weather.Rain],
+  [40, Weather.Showers],
+  [70, Weather.ClearSkies],
+  [Infinity, Weather.FairSkies],
 ];
 
-export const theTempest = [
-  [20, WEATHER_CLOUDS],
-  [80, WEATHER_FAIR_SKIES],
-  [Infinity, WEATHER_CLEAR_SKIES],
+Chances[Zone.TheFringes] = [
+  [15, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [80, Weather.Clouds],
+  [90, Weather.Fog],
+  [Infinity, Weather.Thunder],
 ];
 
-export const uldah = [
-  [40, WEATHER_CLEAR_SKIES],
-  [60, WEATHER_FAIR_SKIES],
-  [85, WEATHER_CLOUDS],
-  [95, WEATHER_FOG],
-  [Infinity, WEATHER_RAIN],
+Chances[Zone.TheGoblet] = [
+  [40, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [85, Weather.Clouds],
+  [95, Weather.Fog],
+  [Infinity, Weather.Rain],
 ];
 
-export const upperLaNoscea = [
-  [30, WEATHER_CLEAR_SKIES],
-  [50, WEATHER_FAIR_SKIES],
-  [70, WEATHER_CLOUDS],
-  [80, WEATHER_FOG],
-  [90, WEATHER_THUNDER],
-  [Infinity, WEATHER_THUNDERSTORMS],
+Chances[Zone.TheLavenderBeds] = [
+  [5, Weather.Clouds],
+  [20, Weather.Rain],
+  [30, Weather.Fog],
+  [40, Weather.Clouds],
+  [55, Weather.FairSkies],
+  [85, Weather.ClearSkies],
+  [Infinity, Weather.FairSkies],
 ];
 
-export const westernLaNoscea = [
-  [10, WEATHER_FOG],
-  [40, WEATHER_CLEAR_SKIES],
-  [60, WEATHER_FAIR_SKIES],
-  [80, WEATHER_CLOUDS],
-  [90, WEATHER_WIND],
-  [Infinity, WEATHER_GALES],
+Chances[Zone.TheLochs] = [
+  [20, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [80, Weather.Clouds],
+  [90, Weather.Fog],
+  [Infinity, Weather.Thunderstorms],
 ];
 
-export const westernThanalan = [
-  [40, WEATHER_CLEAR_SKIES],
-  [60, WEATHER_FAIR_SKIES],
-  [85, WEATHER_CLOUDS],
-  [95, WEATHER_FOG],
-  [Infinity, WEATHER_RAIN],
+Chances[Zone.ThePeaks] = [
+  [10, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [75, Weather.Clouds],
+  [85, Weather.Fog],
+  [95, Weather.Wind],
+  [Infinity, Weather.DustStorms],
 ];
 
-export const wolvesDenPier = [
-  [20, WEATHER_CLOUDS],
-  [50, WEATHER_CLEAR_SKIES],
-  [80, WEATHER_FAIR_SKIES],
-  [90, WEATHER_FOG],
-  [Infinity, WEATHER_THUNDERSTORMS],
+Chances[Zone.TheRaktikaGreatwood] = [
+  [10, Weather.Fog],
+  [20, Weather.Rain],
+  [30, Weather.UmbralWind],
+  [45, Weather.ClearSkies],
+  [85, Weather.FairSkies],
+  [Infinity, Weather.Clouds],
 ];
 
-export const yanxia = [
-  [5, WEATHER_SHOWERS],
-  [15, WEATHER_RAIN],
-  [25, WEATHER_FOG],
-  [40, WEATHER_CLOUDS],
-  [80, WEATHER_FAIR_SKIES],
-  [Infinity, WEATHER_CLEAR_SKIES],
+Chances[Zone.TheRubySea] = [
+  [10, Weather.Thunder],
+  [20, Weather.Wind],
+  [35, Weather.Clouds],
+  [75, Weather.FairSkies],
+  [Infinity, Weather.ClearSkies],
 ];
 
-export const zadnor = [
-  [60, WEATHER_FAIR_SKIES],
-  [70, WEATHER_RAIN],
-  [80, WEATHER_WIND],
-  [90, WEATHER_THUNDER],
-  [Infinity, WEATHER_SNOW],
+Chances[Zone.TheSeaOfClouds] = [
+  [30, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [70, Weather.Clouds],
+  [80, Weather.Fog],
+  [90, Weather.Wind],
+  [Infinity, Weather.UmbralWind],
+];
+
+Chances[Zone.TheTempest] = [
+  [20, Weather.Clouds],
+  [80, Weather.FairSkies],
+  [Infinity, Weather.ClearSkies],
+];
+
+Chances[Zone.Uldah] = [
+  [40, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [85, Weather.Clouds],
+  [95, Weather.Fog],
+  [Infinity, Weather.Rain],
+];
+
+// WeatherRate: 136
+Chances[Zone.UltimaThule] = [
+  [15, Weather.AstromagneticStorm],
+  [70, Weather.FairSkies],
+  [Infinity, Weather.UmbralWind],
+];
+
+Chances[Zone.UpperLaNoscea] = [
+  [30, Weather.ClearSkies],
+  [50, Weather.FairSkies],
+  [70, Weather.Clouds],
+  [80, Weather.Fog],
+  [90, Weather.Thunder],
+  [Infinity, Weather.Thunderstorms],
+];
+
+Chances[Zone.WesternLaNoscea] = [
+  [10, Weather.Fog],
+  [40, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [80, Weather.Clouds],
+  [90, Weather.Wind],
+  [Infinity, Weather.Gales],
+];
+
+Chances[Zone.WesternThanalan] = [
+  [40, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [85, Weather.Clouds],
+  [95, Weather.Fog],
+  [Infinity, Weather.Rain],
+];
+
+Chances[Zone.WolvesDenPier] = [
+  [20, Weather.Clouds],
+  [50, Weather.ClearSkies],
+  [80, Weather.FairSkies],
+  [90, Weather.Fog],
+  [Infinity, Weather.Thunderstorms],
+];
+
+Chances[Zone.Yanxia] = [
+  [5, Weather.Showers],
+  [15, Weather.Rain],
+  [25, Weather.Fog],
+  [40, Weather.Clouds],
+  [80, Weather.FairSkies],
+  [Infinity, Weather.ClearSkies],
+];
+
+Chances[Zone.Zadnor] = [
+  [60, Weather.FairSkies],
+  [70, Weather.Rain],
+  [80, Weather.Wind],
+  [90, Weather.Thunder],
+  [Infinity, Weather.Snow],
 ];

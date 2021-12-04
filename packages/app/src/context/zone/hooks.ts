@@ -41,6 +41,13 @@ export const areaMap = {
     EorzeaWeather.ZONE_SOUTHERN_THANALAN,
     EorzeaWeather.ZONE_NORTHERN_THANALAN,
   ],
+  ilsabardAndNorth: [
+    EorzeaWeather.ZONE_OLD_SHARLAYAN,
+    EorzeaWeather.ZONE_LABYRINTHOS,
+    EorzeaWeather.ZONE_RADZ_AT_HAN,
+    EorzeaWeather.ZONE_THAVNAIR,
+    EorzeaWeather.ZONE_GARLEMALD,
+  ],
   ishgardAndSurroundingAreas: [
     EorzeaWeather.ZONE_ISHGARD,
     EorzeaWeather.ZONE_COERTHAS_CENTRAL_HIGHLANDS,
@@ -80,7 +87,11 @@ export const areaMap = {
     EorzeaWeather.ZONE_THE_LAVENDER_BEDS,
     EorzeaWeather.ZONE_THE_GOBLET,
     EorzeaWeather.ZONE_SHIROGANE,
+    EorzeaWeather.ZONE_EMPYREUM,
     EorzeaWeather.ZONE_MOR_DHONA,
+    EorzeaWeather.ZONE_MARE_LAMENTORUM,
+    EorzeaWeather.ZONE_ULTIMA_THULE,
+    EorzeaWeather.ZONE_ELPIS,
   ],
   eureka: [
     EorzeaWeather.ZONE_EUREKA_ANEMOS,

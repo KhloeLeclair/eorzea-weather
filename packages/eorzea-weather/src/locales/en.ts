@@ -16,8 +16,13 @@ export default {
   'weathers.umbralStatic': 'Umbral Static',
   'weathers.umbralWind': 'Umbral Wind',
   'weathers.wind': 'Wind',
+
+  'weathers.astromagneticStorm': 'Astromagnetic Storm',
+  'weathers.moonDust': 'Moon Dust',
+
   'zones.amhAraeng': 'Amh Araeng',
   'zones.azysLla': 'Azys Lla',
+
   'zones.bozjanSouthernFront': 'Bozjan Southern Front',
   'zones.centralShroud': 'Central Shroud',
   'zones.centralThanalan': 'Central Thanalan',
@@ -26,18 +31,33 @@ export default {
   'zones.eastShroud': 'East Shroud',
   'zones.easternLaNoscea': 'Eastern La Noscea',
   'zones.easternThanalan': 'Eastern Thanalan',
+
+  'zones.empyreum': 'Empyreum',
+  'zones.oldSharlayan': 'Old Sharlayan',
+  'zones.labyrinthos': 'Labyrinthos',
+  'zones.radzAtHan': 'Radz-at-Han',
+  'zones.thavnair': 'Thavnair',
+  'zones.garlemald': 'Garlemald',
+  'zones.mareLamentorum': 'Mare Lamentorum',
+  'zones.ultimaThule': 'Ultima Thule',
+  'zones.elpis': 'Elpis',
+
   'zones.eulmore': 'Eulmore',
+
   'zones.eurekaAnemos': 'Eureka Anemos',
   'zones.eurekaHydatos': 'Eureka Hydatos',
   'zones.eurekaPagos': 'Eureka Pagos',
   'zones.eurekaPyros': 'Eureka Pyros',
+
   'zones.gridania': 'Gridania',
   'zones.idyllshire': 'Idyllshire',
+
   'zones.ilMheg': 'Il Mheg',
   'zones.ishgard': 'Ishgard',
   'zones.kholusia': 'Kholusia',
   'zones.kugane': 'Kugane',
   'zones.lakeland': 'Lakeland',
+
   'zones.limsaLominsa': 'Limsa Lominsa',
   'zones.lowerLaNoscea': 'Lower La Noscea',
   'zones.middleLaNoscea': 'Middle La Noscea',
@@ -47,6 +67,7 @@ export default {
   'zones.northernThanalan': 'Northern Thanalan',
   'zones.outerLaNoscea': 'Outer La Noscea',
   'zones.rhalgrsReach': "Rhalgr's Reach",
+
   'zones.shirogane': 'Shirogane',
   'zones.southShroud': 'South Shroud',
   'zones.southernThanalan': 'Southern Thanalan',

@@ -17,6 +17,9 @@ export default {
   'weathers.umbralWind': 'Vent ombral',
   'weathers.wind': 'Vent',
 
+  'weathers.astromagneticStorm': 'Astromagnétique',
+  'weathers.moonDust': 'Tempêtes de régolithe',
+
   'zones.amhAraeng': 'Amh Araeng',
   'zones.azysLla': 'Azys Lla',
 
@@ -27,8 +30,18 @@ export default {
   'zones.coerthasWesternHighlands': 'Hautes terres du Coerthas occidental',
   'zones.eastShroud': "Forêt de l'est",
   'zones.easternLaNoscea': 'Noscea orientale',
-
   'zones.easternThanalan': 'Thanalan oriental',
+
+  'zones.empyreum': 'Empyrée',
+  'zones.oldSharlayan': 'Vieille Sharlayan',
+  'zones.labyrinthos': 'Le Labyrinthos',
+  'zones.radzAtHan': 'Radz-at-Han',
+  'zones.thavnair': 'Thavnair',
+  'zones.garlemald': 'Garlemald',
+  'zones.mareLamentorum': 'Mare Lamentorum',
+  'zones.ultimaThule': 'Ultima Thulé',
+  'zones.elpis': 'Elpis',
+
   'zones.eulmore': 'Eulmore',
 
   'zones.eurekaAnemos': 'Eurêka Anemos',

@@ -220,6 +220,7 @@ const WeatherTable: FC<Props> = ({ zoneID, hasMap }) => {
                         highlight={highlightedWeathers.includes(weather.id)}
                         key={`cell-${weather.startedAt.getTime()}`}
                         value={weather}
+                        all={weatherTable}
                       />
                     ))}
                   </TableRow>

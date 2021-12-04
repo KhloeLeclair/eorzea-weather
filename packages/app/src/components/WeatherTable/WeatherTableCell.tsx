@@ -70,6 +70,7 @@ const useStyles = makeStyles((theme) =>
 type Props = {
   highlight?: boolean;
   value?: Weather;
+  all?: Weather[];
 };
 
 const WeatherTableCell: FC<Props> = ({ highlight = false, value }) => {
