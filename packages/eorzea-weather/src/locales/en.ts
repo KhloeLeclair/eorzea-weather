@@ -93,4 +93,5 @@ export default {
   'zones.wolvesDenPier': "Wolves' Den Pier",
   'zones.yanxia': 'Yanxia',
   'zones.zadnor': 'Zadnor',
+  'zones.unnamedIsland': 'Unnamed Island'
 };

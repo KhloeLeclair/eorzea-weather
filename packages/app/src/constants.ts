@@ -71,6 +71,7 @@ export const BACKGROUNDS = {
   seaOfClouds: '/backgrounds/seaofclouds.jpg',
   tempest: '/backgrounds/tempest.jpg',
   uldah: '/backgrounds/uldah.jpg',
+  unnamedIsland: '/backgrounds/unnamedisland.jpg'
 };
 
 export const ZONE_MAPS = {
@@ -130,6 +131,7 @@ export const ZONE_MAPS = {
   wolvesDenPier: BACKGROUNDS.limsa, // '/m/s1p1/s1p1.00.jpg',
   yanxia: BACKGROUNDS.othard, // '/m/e3f2/e3f2.00.jpg',
   //zadnor: '/m/n4b6/n4b6.01.jpg',
+  unnamedIsland: BACKGROUNDS.unnamedIsland
 } as MapList;
 
 export const EORZEA_ZONE_LIST = [
@@ -198,4 +200,5 @@ export const EORZEA_ZONE_LIST = [
   EorzeaWeather.ZONE_WOLVES_DEN_PIER,
   EorzeaWeather.ZONE_YANXIA,
   EorzeaWeather.ZONE_ZADNOR,
+  EorzeaWeather.ZONE_UNNAMED_ISLAND
 ];

@@ -92,6 +92,7 @@ export const areaMap = {
     EorzeaWeather.ZONE_MARE_LAMENTORUM,
     EorzeaWeather.ZONE_ULTIMA_THULE,
     EorzeaWeather.ZONE_ELPIS,
+    EorzeaWeather.ZONE_UNNAMED_ISLAND
   ],
   eureka: [
     EorzeaWeather.ZONE_EUREKA_ANEMOS,

@@ -563,3 +563,12 @@ Chances[Zone.Zadnor] = [
   [90, Weather.Thunder],
   [Infinity, Weather.Snow],
 ];
+
+Chances[Zone.UnnamedIsland] = [
+  [25, Weather.ClearSkies],
+  [70, Weather.FairSkies],
+  [80, Weather.Clouds],
+  [90, Weather.Rain],
+  [95, Weather.Fog],
+  [Infinity, Weather.Showers]
+];

@@ -93,4 +93,5 @@ export default {
   'zones.wolvesDenPier': 'ウルヴズジェイル係船場',
   'zones.yanxia': 'ヤンサ',
   'zones.zadnor': 'ザトゥノル高原',
+  'zones.unnamedIsland': '名もなき島'
 };

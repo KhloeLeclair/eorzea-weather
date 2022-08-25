@@ -93,4 +93,5 @@ export default {
   'zones.wolvesDenPier': 'Wolfshöhlen-Pier',
   'zones.yanxia': 'Yanxia',
   'zones.zadnor': 'Zadnor-Hochebene',
+  'zones.unnamedIsland': 'Einsame Insel'
 };

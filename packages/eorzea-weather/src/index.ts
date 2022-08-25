@@ -118,6 +118,7 @@ export default class EorzeaWeather {
   static ZONE_WOLVES_DEN_PIER = Zone.WolvesDenPier;
   static ZONE_YANXIA = Zone.Yanxia;
   static ZONE_ZADNOR = Zone.Zadnor;
+  static ZONE_UNNAMED_ISLAND = Zone.UnnamedIsland;
 
   static getWeather(
     zone: Zone,

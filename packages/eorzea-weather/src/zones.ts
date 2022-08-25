@@ -64,6 +64,7 @@ enum Zone {
   WolvesDenPier = 'wolvesDenPier',
   Yanxia = 'yanxia',
   Zadnor = 'zadnor',
+  UnnamedIsland = 'unnamedIsland'
 }
 
 export default Zone;

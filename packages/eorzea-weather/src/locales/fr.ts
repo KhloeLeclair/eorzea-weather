@@ -93,4 +93,5 @@ export default {
   'zones.wolvesDenPier': "Jetée de l'Antre des loups",
   'zones.yanxia': 'Yanxia',
   'zones.zadnor': 'Hauts plateaux de Zadnor',
+  'zones.unnamedIsland': 'Île sans nom'
 };
