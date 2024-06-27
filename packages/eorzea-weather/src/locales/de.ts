@@ -93,5 +93,14 @@ export default {
   'zones.wolvesDenPier': 'Wolfshöhlen-Pier',
   'zones.yanxia': 'Yanxia',
   'zones.zadnor': 'Zadnor-Hochebene',
-  'zones.unnamedIsland': 'Einsame Insel'
+  'zones.unnamedIsland': 'Einsame Insel',
+
+  'zones.tuliyollal': 'Tuliyollal',
+  'zones.solutionNine': 'Lösung Neun',
+  'zones.urqopacha': 'Urqopacha',
+  'zones.kozamauka': 'Kozama\'uka',
+  'zones.yakTel': 'Yak T\'el',
+  'zones.shaaloani': 'Shaaloani',
+  'zones.heritageFound': 'Ewiges Erbe',
+  'zones.livingMemory': 'Lebende Erinnerung'
 };

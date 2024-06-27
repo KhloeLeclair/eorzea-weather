@@ -572,3 +572,73 @@ Chances[Zone.UnnamedIsland] = [
   [95, Weather.Fog],
   [Infinity, Weather.Showers]
 ];
+
+// WeatherRate: 159
+Chances[Zone.Tuliyollal] = [
+  [40, Weather.ClearSkies],
+  [80, Weather.FairSkies],
+  [85, Weather.Clouds],
+  [95, Weather.Fog],
+  [Infinity, Weather.Rain]
+];
+
+// WeatherRate: 160
+Chances[Zone.Urqopacha] = [
+  [20, Weather.ClearSkies],
+  [50, Weather.FairSkies],
+  [70, Weather.Clouds],
+  [80, Weather.Fog],
+  [90, Weather.Wind],
+  [Infinity, Weather.Snow]
+];
+
+// WeatherRate: 161
+Chances[Zone.Kozamauka] = [
+  [25, Weather.ClearSkies],
+  [60, Weather.FairSkies],
+  [75, Weather.Clouds],
+  [85, Weather.Fog],
+  [95, Weather.Rain],
+  [Infinity, Weather.Showers]
+];
+
+// WeatherRate: 162
+Chances[Zone.YakTel] = [
+  [15, Weather.ClearSkies],
+  [55, Weather.FairSkies],
+  [70, Weather.Clouds],
+  [85, Weather.Fog],
+  [Infinity, Weather.Rain]
+];
+
+// Weather: 163
+Chances[Zone.SolutionNine] = [
+  [Infinity, Weather.FairSkies]
+];
+
+// Weather: 164
+Chances[Zone.Shaaloani] = [
+  [5, Weather.ClearSkies],
+  [50, Weather.FairSkies],
+  [70, Weather.Clouds],
+  [85, Weather.DustStorms],
+  [Infinity, Weather.Gales]
+];
+
+// Weather: 165
+Chances[Zone.HeritageFound] = [
+  [5, Weather.FairSkies],
+  [25, Weather.Clouds],
+  [40, Weather.Fog],
+  [45, Weather.Rain],
+  [50, Weather.Thunderstorms],
+  [Infinity, Weather.UmbralStatic]
+];
+
+// Weather: 166
+Chances[Zone.LivingMemory] = [
+  [10, Weather.Rain],
+  [20, Weather.Fog],
+  [40, Weather.Clouds],
+  [Infinity, Weather.FairSkies]
+];

@@ -200,5 +200,13 @@ export const EORZEA_ZONE_LIST = [
   EorzeaWeather.ZONE_WOLVES_DEN_PIER,
   EorzeaWeather.ZONE_YANXIA,
   EorzeaWeather.ZONE_ZADNOR,
-  EorzeaWeather.ZONE_UNNAMED_ISLAND
+  EorzeaWeather.ZONE_UNNAMED_ISLAND,
+  EorzeaWeather.ZONE_TULIYOLLAL,
+  EorzeaWeather.ZONE_SOLUTION_NINE,
+  EorzeaWeather.ZONE_URQOPACHA,
+  EorzeaWeather.ZONE_KOZAMAUKA,
+  EorzeaWeather.ZONE_YAK_TEL,
+  EorzeaWeather.ZONE_SHAALOANI,
+  EorzeaWeather.ZONE_HERITAGE_FOUND,
+  EorzeaWeather.ZONE_LIVING_MEMORY
 ];

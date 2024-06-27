@@ -120,6 +120,15 @@ export default class EorzeaWeather {
   static ZONE_ZADNOR = Zone.Zadnor;
   static ZONE_UNNAMED_ISLAND = Zone.UnnamedIsland;
 
+  static ZONE_TULIYOLLAL = Zone.Tuliyollal;
+  static ZONE_SOLUTION_NINE = Zone.SolutionNine;
+  static ZONE_URQOPACHA = Zone.Urqopacha;
+  static ZONE_KOZAMAUKA = Zone.Kozamauka;
+  static ZONE_YAK_TEL = Zone.YakTel;
+  static ZONE_SHAALOANI = Zone.Shaaloani;
+  static ZONE_HERITAGE_FOUND = Zone.HeritageFound;
+  static ZONE_LIVING_MEMORY = Zone.LivingMemory;
+
   static getWeather(
     zone: Zone,
     date: Date,

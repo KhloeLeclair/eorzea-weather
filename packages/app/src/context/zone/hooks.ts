@@ -82,6 +82,16 @@ export const areaMap = {
     EorzeaWeather.ZONE_THE_RAKTIKA_GREATWOOD,
     EorzeaWeather.ZONE_THE_TEMPEST,
   ],
+  yokTural: [
+    EorzeaWeather.ZONE_TULIYOLLAL,
+    EorzeaWeather.ZONE_URQOPACHA,
+    EorzeaWeather.ZONE_KOZAMAUKA,
+    EorzeaWeather.ZONE_YAK_TEL
+  ],
+  xakTural: [
+    EorzeaWeather.ZONE_SHAALOANI,
+    EorzeaWeather.ZONE_HERITAGE_FOUND
+  ],
   others: [
     EorzeaWeather.ZONE_MIST,
     EorzeaWeather.ZONE_THE_LAVENDER_BEDS,
@@ -92,7 +102,8 @@ export const areaMap = {
     EorzeaWeather.ZONE_MARE_LAMENTORUM,
     EorzeaWeather.ZONE_ULTIMA_THULE,
     EorzeaWeather.ZONE_ELPIS,
-    EorzeaWeather.ZONE_UNNAMED_ISLAND
+    EorzeaWeather.ZONE_UNNAMED_ISLAND,
+    EorzeaWeather.ZONE_LIVING_MEMORY
   ],
   eureka: [
     EorzeaWeather.ZONE_EUREKA_ANEMOS,

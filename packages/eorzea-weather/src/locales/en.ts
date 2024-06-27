@@ -93,5 +93,14 @@ export default {
   'zones.wolvesDenPier': "Wolves' Den Pier",
   'zones.yanxia': 'Yanxia',
   'zones.zadnor': 'Zadnor',
-  'zones.unnamedIsland': 'Unnamed Island'
+  'zones.unnamedIsland': 'Unnamed Island',
+
+  'zones.tuliyollal': 'Tuliyollal',
+  'zones.solutionNine': 'Solution Nine',
+  'zones.urqopacha': 'Urqopacha',
+  'zones.kozamauka': 'Kozama\'uka',
+  'zones.yakTel': 'Yak T\'el',
+  'zones.shaaloani': 'Shaaloani',
+  'zones.heritageFound': 'Heritage Found',
+  'zones.livingMemory': 'Living Memory'
 };

@@ -64,7 +64,15 @@ enum Zone {
   WolvesDenPier = 'wolvesDenPier',
   Yanxia = 'yanxia',
   Zadnor = 'zadnor',
-  UnnamedIsland = 'unnamedIsland'
+  UnnamedIsland = 'unnamedIsland',
+  Tuliyollal = 'tuliyollal',
+  SolutionNine = 'solutionNine',
+  Urqopacha = 'urqopacha',
+  Kozamauka = 'kozamauka',
+  YakTel = 'yakTel',
+  Shaaloani = 'shaaloani',
+  HeritageFound = 'heritageFound',
+  LivingMemory = 'livingMemory'
 }
 
 export default Zone;

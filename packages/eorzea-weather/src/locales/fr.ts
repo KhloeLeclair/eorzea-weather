@@ -93,5 +93,14 @@ export default {
   'zones.wolvesDenPier': "Jetée de l'Antre des loups",
   'zones.yanxia': 'Yanxia',
   'zones.zadnor': 'Hauts plateaux de Zadnor',
-  'zones.unnamedIsland': 'Île sans nom'
+  'zones.unnamedIsland': 'Île sans nom',
+
+  'zones.tuliyollal': 'Tuliyollal',
+  'zones.solutionNine': 'Solution Neuf',
+  'zones.urqopacha': 'Urqopacha',
+  'zones.kozamauka': 'Kozama\'uka',
+  'zones.yakTel': 'Yak T\'el',
+  'zones.shaaloani': 'Shaaloani',
+  'zones.heritageFound': 'L\'Hoirie recouvrée',
+  'zones.livingMemory': 'La Mémoire vivante'
 };

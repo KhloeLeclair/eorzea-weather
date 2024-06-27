@@ -93,5 +93,14 @@ export default {
   'zones.wolvesDenPier': 'ウルヴズジェイル係船場',
   'zones.yanxia': 'ヤンサ',
   'zones.zadnor': 'ザトゥノル高原',
-  'zones.unnamedIsland': '名もなき島'
+  'zones.unnamedIsland': '名もなき島',
+
+  'zones.tuliyollal': 'トライヨラ',
+  'zones.solutionNine': 'ソリューション・ナイン',
+  'zones.urqopacha': 'オルコ・パチャ',
+  'zones.kozamauka': 'コザマル・カ',
+  'zones.yakTel': 'ヤクテル樹海',
+  'zones.shaaloani': 'シャーローニ荒野',
+  'zones.heritageFound': 'ヘリテージファウンド',
+  'zones.livingMemory': 'リビング・メモリー'
 };
